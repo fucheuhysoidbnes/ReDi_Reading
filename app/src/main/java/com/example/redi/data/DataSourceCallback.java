@@ -1,4 +1,6 @@
 package com.example.redi.data;
 
-public class DataSourceCallback {
+public interface DataSourceCallback<T> {
+    void onSuccess(T data);
+    void onError(String error);
 }
