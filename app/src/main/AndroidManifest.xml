@@ -11,17 +11,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ReDi">
-<!--        <activity-->
-<!--            android:name=".user.activities.MainUserActivity"-->
-<!--            android:exported="false" />-->
+        <activity
+            android:name=".admin.activities.MainAdminActivity"
+            android:exported="false" />
+         <activity
+         android:name=".user.activities.MainUserActivity"
+         android:exported="false" />
         <activity
             android:name=".auth.RegisterActivity"
             android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".auth.LoginActivity"-->
+<!--            android:exported="false" />-->
         <activity
             android:name=".auth.LoginActivity"
-            android:exported="false" />
-        <activity
-            android:name=".user.activities.MainUserActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
