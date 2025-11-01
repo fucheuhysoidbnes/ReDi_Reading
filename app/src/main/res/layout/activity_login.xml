@@ -3,7 +3,7 @@
     android:fillViewport="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5EAD6">
+    android:background="@color/background">
 
     <LinearLayout
         android:orientation="vertical"
@@ -52,7 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:text="LOG IN"
-            android:backgroundTint="#8B5A2B"
+            android:backgroundTint="@color/brown"
             android:textColor="#FFFFFF"/>
 
         <TextView
