@@ -15,5 +15,6 @@
         android:id="@+id/bottomNavigationUser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:itemIconTint="@color/brown"
         app:menu="@menu/menu_user_bottom" />
 </LinearLayout>
