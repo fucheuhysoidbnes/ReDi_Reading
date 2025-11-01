@@ -4,21 +4,25 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.*;
-import androidx.annotation.NonNull;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.redi.R;
+import com.example.redi.common.models.User;
+import com.example.redi.common.utils.UserSession;
+import com.example.redi.data.DataSourceCallback;
 import com.example.redi.data.repository.UserRepository;
-import com.google.firebase.auth.*;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
+
     EditText etEmail, etPassword;
     Button btnLogin;
     TextView tvGoRegister;
     FirebaseAuth auth;
     UserRepository userRepo;
+    UserSession userSession; // ✅ dùng UserSession để lưu user
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +36,12 @@ public class LoginActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
         userRepo = new UserRepository();
+        userSession = new UserSession(this);
 
         btnLogin.setOnClickListener(v -> login());
-        tvGoRegister.setOnClickListener(v -> {
-            startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
-        });
+        tvGoRegister.setOnClickListener(v ->
+                startActivity(new Intent(LoginActivity.this, RegisterActivity.class))
+        );
     }
 
     private void login() {
@@ -56,31 +61,47 @@ public class LoginActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         FirebaseUser fuser = auth.getCurrentUser();
                         if (fuser != null) {
-                            // lấy role từ Realtime DB
-                            userRepo.getUserRole(fuser.getUid(), new ValueEventListener() {
+                            // ✅ Gọi repository lấy thông tin user đầy đủ
+                            userRepo.getUserById(fuser.getUid(), new DataSourceCallback<User>() {
                                 @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    String role = "user";
-                                    if (snapshot.exists() && snapshot.getValue() != null) {
-                                        role = snapshot.getValue(String.class);
+                                public void onSuccess(User user) {
+                                    if (user == null) {
+                                        user = new User();
+                                        user.setId(fuser.getUid());
+                                        user.setEmail(fuser.getEmail());
+                                        user.setRole("user");
                                     }
-                                    Toast.makeText(LoginActivity.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
-                                    if ("admin".equals(role)) {
-                                        startActivity(new Intent(LoginActivity.this, com.example.redi.admin.activities.MainAdminActivity.class));
+
+                                    // ✅ Lưu vào UserSession
+                                    userSession.saveUser(user);
+
+                                    Toast.makeText(LoginActivity.this,
+                                            "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
+
+                                    Intent intent;
+                                    if ("admin".equals(user.getRole())) {
+                                        intent = new Intent(LoginActivity.this,
+                                                com.example.redi.admin.activities.MainAdminActivity.class);
                                     } else {
-                                        startActivity(new Intent(LoginActivity.this, com.example.redi.user.activities.MainUserActivity.class));
+                                        intent = new Intent(LoginActivity.this,
+                                                com.example.redi.user.activities.MainUserActivity.class);
                                     }
+
+                                    startActivity(intent);
                                     finish();
                                 }
 
                                 @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
-                                    Toast.makeText(LoginActivity.this, "Lỗi đọc role: " + error.getMessage(), Toast.LENGTH_LONG).show();
+                                public void onError(String error) {
+                                    Toast.makeText(LoginActivity.this,
+                                            "Lỗi đọc dữ liệu user: " + error, Toast.LENGTH_LONG).show();
                                 }
                             });
                         }
                     } else {
-                        Toast.makeText(LoginActivity.this, "Đăng nhập thất bại: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(LoginActivity.this,
+                                "Đăng nhập thất bại: " + task.getException().getMessage(),
+                                Toast.LENGTH_LONG).show();
                     }
                 });
     }
