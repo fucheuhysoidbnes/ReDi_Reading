@@ -55,4 +55,9 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookVH> {
             img = itemView.findViewById(R.id.ivBook);
         }
     }
+    public void updateList(List<Book> newList) {
+        this.list = newList;
+        notifyDataSetChanged();
+    }
+
 }
