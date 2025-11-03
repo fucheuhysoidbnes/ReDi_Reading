@@ -6,33 +6,22 @@ import androidx.fragment.app.Fragment;
 
 import com.example.redi.R;
 import com.example.redi.user.fragments.HomeFragment;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.example.redi.common.base.BaseUserActivity;
 
-public class MainUserActivity extends AppCompatActivity {
+public class MainUserActivity extends BaseUserActivity  {
 
-    BottomNavigationView bottomNav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_user);
+        setContentView(R.layout.client_home_main);
 
-        bottomNav = findViewById(R.id.bottomNavigationUser);
-
-        // Load HomeFragment mặc định
-        loadFragment(new HomeFragment());
-
-        bottomNav.setOnItemSelectedListener(item -> {
-            Fragment selected = null;
-
-            if (item.getItemId() == R.id.menu_home) {
-                selected = new HomeFragment();
-            }
-            // Sau này thêm SearchFragment, AccountFragment...
-
-            return loadFragment(selected);
-        });
+        setupBottomNavigation(R.id.menu_home); // truyền ID menu hiện tại
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.containerUser, new HomeFragment())
+                .commit();
     }
+
 
     private boolean loadFragment(Fragment fragment) {
         if (fragment != null) {
