@@ -46,9 +46,9 @@ public class HomeFragment extends Fragment {
         viewModel = new BookViewModel();
 
         loadUser();
-        showCachedBooks();   // ✅ hiển thị cache trước
-        loadBooks();         // ✅ rồi tải dữ liệu mới từ Firebase
-        setupSearch();       // ✅ kích hoạt tìm kiếm
+        showCachedBooks();   // hiển thị cache trước
+        loadBooks();         // rồi tải dữ liệu mới từ Firebase
+        setupSearch();       // kích hoạt tìm kiếm
 
         return v;
     }
@@ -58,7 +58,7 @@ public class HomeFragment extends Fragment {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             tvUser.setText("Xin chào, " + user.getEmail());
-        } else {
+        } else {            
             tvUser.setText("Chưa đăng nhập");
         }
     }
