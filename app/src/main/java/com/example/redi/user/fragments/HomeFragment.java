@@ -46,9 +46,9 @@ public class HomeFragment extends Fragment {
         viewModel = new BookViewModel();
 
         loadUser();
-        showCachedBooks();   // ✅ hiển thị cache trước
-        loadBooks();         // ✅ rồi tải dữ liệu mới từ Firebase
-        setupSearch();       // ✅ kích hoạt tìm kiếm
+        showCachedBooks();   // hiển thị cache trước
+        loadBooks();         // rồi tải dữ liệu mới từ Firebase
+        setupSearch();       // kích hoạt tìm kiếm
 
         return v;
     }
