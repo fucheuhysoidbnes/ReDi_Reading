@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "68522643340",
+    "firebase_url": "https://appsell12-default-rtdb.firebaseio.com",
+    "project_id": "appsell12",
+    "storage_bucket": "appsell12.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:68522643340:android:d8d8d3950b5a40d5d2d0a9",
+        "android_client_info": {
+          "package_name": "com.example.app_sellbooks"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhpgBDyLgolmSQfIpRi8z8_YzUPIct-jQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:68522643340:android:f7364b5ad2731fe3d2d0a9",
+        "android_client_info": {
+          "package_name": "com.example.redi"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhpgBDyLgolmSQfIpRi8z8_YzUPIct-jQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
