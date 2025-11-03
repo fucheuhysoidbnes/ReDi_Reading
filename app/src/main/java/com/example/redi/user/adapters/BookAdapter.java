@@ -12,6 +12,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.redi.R;
 import com.example.redi.common.models.Book;
+import androidx.fragment.app.FragmentActivity;
+import com.example.redi.user.fragments.BookDetailFragment;
+
+
 
 import java.util.List;
 
@@ -39,6 +43,17 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookVH> {
         Glide.with(holder.itemView.getContext())
                 .load(book.getImageUrl())
                 .into(holder.img);
+
+        // ✅ Khi click vào sách -> mở BookDetailFragment
+        holder.itemView.setOnClickListener(v -> {
+            FragmentActivity activity = (FragmentActivity) v.getContext();
+            BookDetailFragment fragment = BookDetailFragment.newInstance(book);
+            activity.getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.containerUser, fragment)
+                    .addToBackStack(null) // để quay lại được Home
+                    .commit();
+        });
     }
 
     @Override

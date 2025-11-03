@@ -29,10 +29,21 @@ public class FirebaseBookDataSource {
                 List<Book> list = new ArrayList<>();
                 for (DataSnapshot child : snapshot.getChildren()) {
                     Book book = child.getValue(Book.class);
-                    if (book != null) list.add(book);
+                    if (book != null) {
+                        // 🔧 Fix tự động link Drive sai
+                        if (book.getContent() != null && book.getContent().contains("drive.google.com/file/d/")) {
+                            try {
+                                String id = book.getContent().split("/d/")[1].split("/")[0];
+                                String fixedUrl = "https://drive.google.com/uc?export=preview&id=" + id;
+                                book.setContent(fixedUrl);
+                            } catch (Exception ignored) {}
+                        }
+
+                        list.add(book);
+                    }
                 }
 
-                // ✅ Lưu vào cache
+                // ✅ Lưu cache để tái sử dụng
                 AppCache.getInstance().setBooks(list);
                 callback.onSuccess(list);
             }
