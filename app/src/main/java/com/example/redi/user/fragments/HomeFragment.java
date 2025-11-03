@@ -58,7 +58,7 @@ public class HomeFragment extends Fragment {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             tvUser.setText("Xin chào, " + user.getEmail());
-        } else {
+        } else {            
             tvUser.setText("Chưa đăng nhập");
         }
     }

@@ -11,9 +11,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ReDi">
-<!--        <activity-->
-<!--            android:name=".auth.SplashActivity"-->
-<!--            android:exported="false" />-->
+        <activity
+            android:name=".user.activities.OrdersActivity"
+            android:exported="false" />
+        <activity
+            android:name=".user.activities.CartActivity"
+            android:exported="false" />
+        <activity
+            android:name=".user.activities.AccountActivity"
+            android:exported="false" /> <!-- <activity -->
+        <!-- android:name=".auth.SplashActivity" -->
+        <!-- android:exported="false" /> -->
         <activity
             android:name=".admin.activities.MainAdminActivity"
             android:exported="false" />
@@ -23,9 +31,9 @@
         <activity
             android:name=".auth.RegisterActivity"
             android:exported="false" />
-         <activity
-         android:name=".auth.LoginActivity"
-         android:exported="false" />
+        <activity
+            android:name=".auth.LoginActivity"
+            android:exported="false" />
         <activity
             android:name=".auth.SplashActivity"
             android:exported="true">
