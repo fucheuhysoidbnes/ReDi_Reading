@@ -1,6 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:padding="12dp"
+    android:background="@color/background"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -9,6 +10,7 @@
         android:text="Loading user..."
         android:textStyle="bold"
         android:textSize="16sp"
+        android:padding="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
@@ -16,12 +18,15 @@
         android:id="@+id/etSearch"
         android:hint="Tìm sách..."
         android:padding="10dp"
-        android:drawableLeft="@android:drawable/ic_search_category_default"
+        android:drawableLeft="@drawable/ic_search"
+        android:background="@drawable/rounded_edit"
+        android:drawablePadding="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvBooks"
+        android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 </LinearLayout>
