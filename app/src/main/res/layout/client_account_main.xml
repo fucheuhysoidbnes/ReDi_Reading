@@ -1,26 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#FFF6E9">
 
-    <!-- Khu vực hiển thị nội dung (ví dụ: fragment) -->
-    <FrameLayout
-        android:id="@+id/containerUser"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/bottomNavigationUser" />
+        android:background="#FFF6E9"
+        android:padding="16dp">
 
-    <!-- Thanh menu ở cuối màn hình -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <!-- Ảnh đại diện -->
+            <ImageView
+                android:id="@+id/ivAvatar"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/rounded_edit"
+                android:contentDescription="Ảnh đại diện người dùng"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_account" />
+
+            <!-- Họ tên -->
+            <TextView
+                android:id="@+id/tvFullName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="User"
+                android:textColor="@color/brown"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <!-- Email -->
+            <EditText
+                android:id="@+id/tvEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:hint="Email"
+                android:textSize="16sp" />
+
+            <!-- Số điện thoại -->
+            <EditText
+                android:id="@+id/tvPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:hint="Số điện thoại"
+                android:textSize="16sp" />
+
+            <!-- Địa chỉ giao hàng -->
+            <EditText
+                android:id="@+id/tvAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:hint="Địa chỉ"
+                android:textSize="16sp" />
+
+            <!-- Nút cập nhật thông tin -->
+            <Button
+                android:id="@+id/btnEditInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:backgroundTint="@color/brown"
+                android:text="Cập nhật thông tin"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white" />
+
+            <!-- Nút đăng xuất -->
+            <Button
+                android:id="@+id/btnLogout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/black"
+                android:text="Đăng xuất"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Thanh menu dưới cùng -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationUser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        app:menu="@menu/menu_user_bottom"
+        android:background="?android:attr/windowBackground"
         app:itemIconTint="@color/brown"
         app:itemTextColor="@color/brown"
-        android:background="?android:attr/windowBackground" />
+        app:menu="@menu/menu_user_bottom" />
+
+    <FrameLayout
+        android:id="@+id/containerUser"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottomNavigationUser" />
 
 </RelativeLayout>
