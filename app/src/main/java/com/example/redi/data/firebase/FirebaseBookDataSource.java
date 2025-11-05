@@ -17,12 +17,12 @@ public class FirebaseBookDataSource {
     }
 
     public void getAllBooks(DataSourceCallback<List<Book>> callback) {
-        // ✅ Nếu cache đã có, trả ngay để UI hiển thị tức thì
+        // Nếu cache đã có, trả ngay để UI hiển thị tức thì
         if (AppCache.getInstance().hasBooks()) {
             callback.onSuccess(AppCache.getInstance().getBooks());
         }
 
-        // ✅ Tiếp tục tải từ Firebase để cập nhật mới nhất
+        // Tiếp tục tải từ Firebase để cập nhật mới nhất
         booksRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -30,20 +30,37 @@ public class FirebaseBookDataSource {
                 for (DataSnapshot child : snapshot.getChildren()) {
                     Book book = child.getValue(Book.class);
                     if (book != null) {
-                        // 🔧 Fix tự động link Drive sai
-                        if (book.getContent() != null && book.getContent().contains("drive.google.com/file/d/")) {
+                        String contentUrl = book.getContent();
+
+                        if (contentUrl != null && contentUrl.contains("drive.google.com")) {
                             try {
-                                String id = book.getContent().split("/d/")[1].split("/")[0];
-                                String fixedUrl = "https://drive.google.com/uc?export=preview&id=" + id;
-                                book.setContent(fixedUrl);
-                            } catch (Exception ignored) {}
+                                String id = null;
+
+                                // Dạng /file/d/ID/
+                                if (contentUrl.contains("/file/d/")) {
+                                    id = contentUrl.split("/d/")[1].split("/")[0];
+                                }
+                                //  Dạng ?id=ID
+                                else if (contentUrl.contains("id=")) {
+                                    id = contentUrl.split("id=")[1].split("&")[0];
+                                }
+
+                                // Nếu có ID thì chuyển sang link nhúng Drive
+                                if (id != null && !id.isEmpty()) {
+                                    String fixedUrl = "https://drive.google.com/file/d/" + id + "/preview";
+                                    book.setContent(fixedUrl);
+                                }
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
 
                         list.add(book);
                     }
                 }
 
-                // ✅ Lưu cache để tái sử dụng
+                // Lưu cache để tái sử dụng
                 AppCache.getInstance().setBooks(list);
                 callback.onSuccess(list);
             }

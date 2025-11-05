@@ -2,14 +2,11 @@ package com.example.redi.user.activities;
 
 import android.os.Bundle;
 
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.redi.R;
 import com.example.redi.common.base.BaseUserActivity;
+import com.example.redi.user.fragments.CartFragment;
 
 public class CartActivity extends BaseUserActivity {
 
@@ -17,7 +14,11 @@ public class CartActivity extends BaseUserActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.client_cart_main);
-
         setupBottomNavigation(R.id.menu_cart);
+
+        // Load fragment giỏ hàng vào containerUser
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.containerUser, new CartFragment());
+        ft.commit();
     }
 }

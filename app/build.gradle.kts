@@ -50,6 +50,7 @@ android {
 dependencies {
     // 🖼 Thư viện load ảnh
     implementation("com.github.bumptech.glide:glide:4.16.0")
+    implementation("androidx.browser:browser:1.8.0")
     implementation("com.github.mhiew:android-pdf-viewer:3.2.0-beta.1") {
         exclude(group = "com.android.support") // loại bỏ support v4 cũ
     }
