@@ -1,5 +1,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:padding="15dp"
+    android:background="@color/background"
     android:layout_height="match_parent">
 
     <LinearLayout
@@ -28,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
-            android:textColor="@color/red"
+            android:textColor="@color/text_color"
             android:textSize="18sp" />
 
         <LinearLayout
@@ -41,7 +43,8 @@
                 android:id="@+id/btnMinus"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:background="@null"
+                android:background="@drawable/btn_round"
+                android:backgroundTint="@color/light_brown"
                 android:src="@drawable/ic_minus" />
 
             <TextView
@@ -55,7 +58,8 @@
                 android:id="@+id/btnPlus"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:background="@null"
+                android:background="@drawable/btn_round"
+                android:backgroundTint="@color/light_brown"
                 android:src="@drawable/ic_plus" />
         </LinearLayout>
 
@@ -63,36 +67,41 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:weightSum="3"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/btnAddCart"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_width="130dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="THÊM VÀO GIỎ" />
+                android:layout_marginRight="5dp"
+                android:backgroundTint="@color/brown"
+                android:text="Thêm vào giỏ" />
 
             <Button
                 android:id="@+id/btnBuyNow"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_width="130dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="THANH TOÁN" />
+                android:layout_marginRight="5dp"
+                android:backgroundTint="@color/brown"
+                android:text="Mua ngay" />
+            <Button
+                android:id="@+id/btnRead"
+                android:layout_width="130dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:backgroundTint="@color/brown"
+                android:text="Đọc thử" />
         </LinearLayout>
-
-        <Button
-            android:id="@+id/btnRead"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="ĐỌC THỬ" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="Mô tả chi tiết"
+            android:textColor="@color/text_color"
             android:textStyle="bold" />
 
         <TextView
