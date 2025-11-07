@@ -1,12 +1,14 @@
 package com.example.redi.common.models;
-
-public class Book {
+import java.io.Serializable;
+public class Book implements Serializable{
     private String book_id;
     private String title;
     private String description;
     private String imageUrl;
     private int price;
     private int quantity;
+    private String content;
+
 
 
     public Book() {
@@ -60,4 +62,6 @@ public class Book {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+    public String getContent() { return content; }
+    public void setContent(String content) { this.content = content; }
 }
