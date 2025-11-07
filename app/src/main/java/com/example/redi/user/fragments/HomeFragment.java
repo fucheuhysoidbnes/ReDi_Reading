@@ -59,7 +59,7 @@ public class HomeFragment extends Fragment {
         if (user != null) {
             tvUser.setText("Xin chào, " + user.getEmail());
         } else {            
-            tvUser.setText("Chưa đăng nhập");
+            tvUser.setText("Xin chào");
         }
     }
 

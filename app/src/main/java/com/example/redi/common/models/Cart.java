@@ -1,9 +1,10 @@
 package com.example.redi.common.models;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Cart {
+public class Cart implements Serializable {
     private String cartId;
     private String userId;
     private long createdAt;

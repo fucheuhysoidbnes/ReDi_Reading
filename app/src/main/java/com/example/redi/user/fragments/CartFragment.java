@@ -1,20 +1,13 @@
 package com.example.redi.user.fragments;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
-
+import android.view.*;
+import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.redi.R;
 import com.example.redi.common.models.Cart;
 import com.example.redi.common.models.CartItem;
@@ -22,11 +15,7 @@ import com.example.redi.common.utils.UserSession;
 import com.example.redi.data.DataSourceCallback;
 import com.example.redi.data.repository.CartRepository;
 import com.example.redi.user.adapters.CartAdapter;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class CartFragment extends Fragment implements CartAdapter.CartActionListener {
 
@@ -59,11 +48,8 @@ public class CartFragment extends Fragment implements CartAdapter.CartActionList
         adapter = new CartAdapter(cartItems, this);
         recyclerView.setAdapter(adapter);
 
-        btnCheckout.setOnClickListener(view ->
-                Toast.makeText(requireContext(), "Chức năng thanh toán sẽ được thêm sau", Toast.LENGTH_SHORT).show()
-        );
-
-        btnDelete.setOnClickListener(view -> deleteSelectedItems());
+        btnCheckout.setOnClickListener(v1 -> proceedToCheckout());
+        btnDelete.setOnClickListener(v1 -> deleteSelectedItems());
 
         loadCartData();
         return v;
@@ -71,7 +57,23 @@ public class CartFragment extends Fragment implements CartAdapter.CartActionList
 
     private void loadCartData() {
         progressBar.setVisibility(View.VISIBLE);
-        String userId = new UserSession(requireContext()).getCurrentUser().getId();
+        UserSession userSession = new UserSession(requireContext());
+
+        // Nếu chưa đăng nhập → hiển thị thông báo & clear danh sách
+        if (!userSession.isLoggedIn() || userSession.getCurrentUser() == null) {
+            progressBar.setVisibility(View.GONE);
+            cartItems.clear();
+            adapter.notifyDataSetChanged();
+            tvTotalPrice.setText("Bạn cần đăng nhập để xem giỏ hàng");
+            return;
+        }
+
+        String userId = userSession.getCurrentUser().getId();
+        if (userId == null || userId.isEmpty()) {
+            progressBar.setVisibility(View.GONE);
+            tvTotalPrice.setText("Không thể tải giỏ hàng");
+            return;
+        }
 
         cartRepository.findCartByUser(userId, new DataSourceCallback<Cart>() {
             @Override
@@ -103,13 +105,37 @@ public class CartFragment extends Fragment implements CartAdapter.CartActionList
         });
     }
 
-    /**  Cập nhật lại giá tổng */
+    /** Cập nhật lại giá tổng */
     private void updateTotalPrice() {
         totalPrice = 0;
         for (CartItem item : adapter.getSelectedItems()) {
             totalPrice += item.getPrice() * item.getQty();
         }
         tvTotalPrice.setText("Số tiền phải thanh toán: " + totalPrice + "₫");
+    }
+
+    /** Thanh toán các sản phẩm đã chọn */
+    private void proceedToCheckout() {
+        List<CartItem> selected = adapter.getSelectedItems();
+        if (selected.isEmpty()) {
+            Toast.makeText(requireContext(), "Hãy chọn sản phẩm để thanh toán", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Đóng gói danh sách thành HashMap để truyền sang Checkout
+        Map<String, CartItem> selectedMap = new HashMap<>();
+        int total = 0;
+        for (CartItem item : selected) {
+            selectedMap.put(item.getBook_id(), item);
+            total += item.getPrice() * item.getQty();
+        }
+
+        CheckoutFragment checkoutFragment = CheckoutFragment.newInstance(total, selectedMap);
+        requireActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.containerUser, checkoutFragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     /** Xoá sản phẩm được chọn */
@@ -122,7 +148,6 @@ public class CartFragment extends Fragment implements CartAdapter.CartActionList
         }
 
         for (CartItem item : selected) {
-            // Xoá từng sản phẩm trong Firebase
             String cartId = currentCart.getCartId();
             String bookId = item.getBook_id();
             com.google.firebase.database.FirebaseDatabase.getInstance()
@@ -134,38 +159,25 @@ public class CartFragment extends Fragment implements CartAdapter.CartActionList
         }
 
         // Xoá khỏi danh sách hiển thị (cập nhật UI)
-        Iterator<CartItem> iterator = cartItems.iterator();
-        while (iterator.hasNext()) {
-            CartItem i = iterator.next();
-            for (CartItem s : selected) {
-                if (s.getBook_id().equals(i.getBook_id())) {
-                    iterator.remove();
-                    break;
-                }
-            }
-        }
+        cartItems.removeAll(selected);
         adapter.notifyDataSetChanged();
         updateTotalPrice();
 
         Toast.makeText(requireContext(), "Đã xoá sản phẩm được chọn", Toast.LENGTH_SHORT).show();
     }
 
-    /**  Khi người dùng tick chọn / bỏ chọn sản phẩm */
     @Override
     public void onItemCheckedChanged(List<CartItem> selectedItems) {
         updateTotalPrice();
     }
 
-    /**  Khi tăng/giảm số lượng */
     @Override
     public void onQuantityChanged(CartItem item) {
         if (currentCart == null) return;
 
-        // Chỉ cập nhật sản phẩm đó, không reload toàn trang
         cartRepository.addOrUpdateItem(currentCart.getCartId(), item, new DataSourceCallback<Void>() {
             @Override
             public void onSuccess(Void result) {
-                // chỉ cập nhật lại giá tổng, không load lại
                 updateTotalPrice();
             }
 
