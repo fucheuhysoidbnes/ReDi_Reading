@@ -1,41 +1,40 @@
-package com.example.redi.user.activities;
+package com.example.redi.user.fragments;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TextView;
+import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.redi.R;
-import com.example.redi.common.base.BaseUserActivity;
 import com.example.redi.user.adapters.OrdersAdapter;
 import com.example.redi.user.data.Order;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrdersActivity extends BaseUserActivity { // kế thừa BaseUserActivity
+public class OrdersFragment extends Fragment {
 
     private RecyclerView recyclerOrders;
-    private TextView tvEmptyOrders;
+    private View tvEmptyOrders;
     private OrdersAdapter adapter;
     private List<Order> orderList;
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.client_orders_main);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.client_orders_main, container, false);
 
-        // ✅ Gắn menu hiện tại (tab “Đơn hàng”)
-        setupBottomNavigation(R.id.menu_orders);
-
-        recyclerOrders = findViewById(R.id.recyclerOrders);
-        tvEmptyOrders = findViewById(R.id.tvEmptyOrders);
+        recyclerOrders = view.findViewById(R.id.recyclerOrders);
+        tvEmptyOrders = view.findViewById(R.id.tvEmptyOrders);
 
         orderList = new ArrayList<>();
-
-        // 🔹 Dữ liệu giả để test hiển thị
 //        orderList.add(new Order("#001", "user123", "07/11/2025", "150.000đ",
 //                "Đang giao", "Thanh toán khi nhận hàng", "Hà Nội, Việt Nam"));
 //
@@ -45,16 +44,18 @@ public class OrdersActivity extends BaseUserActivity { // kế thừa BaseUserAc
 //        orderList.add(new Order("#003", "user123", "01/11/2025", "99.000đ",
 //                "Đã thanh toán", "Momo", "Đà Nẵng, Việt Nam"));
 
+
         if (orderList.isEmpty()) {
             tvEmptyOrders.setVisibility(View.VISIBLE);
             recyclerOrders.setVisibility(View.GONE);
         } else {
             tvEmptyOrders.setVisibility(View.GONE);
             recyclerOrders.setVisibility(View.VISIBLE);
-
-            recyclerOrders.setLayoutManager(new LinearLayoutManager(this));
+            recyclerOrders.setLayoutManager(new LinearLayoutManager(getContext()));
             adapter = new OrdersAdapter(orderList);
             recyclerOrders.setAdapter(adapter);
         }
+
+        return view;
     }
 }

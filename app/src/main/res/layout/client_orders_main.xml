@@ -1,16 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
-    <!-- Khu vực hiển thị nội dung (ví dụ: fragment) -->
-    <FrameLayout
-        android:id="@+id/containerUser"
+    <!-- Tiêu đề -->
+    <TextView
+        android:id="@+id/tvOrdersTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Đơn hàng của tôi"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:padding="16dp" />
+
+    <!-- Danh sách đơn hàng -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerOrders"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/bottomNavigationUser" />
+        android:layout_below="@id/tvOrdersTitle"
+        android:layout_above="@id/bottomNavigationUser"
+        android:padding="8dp"
+        android:clipToPadding="false" />
+
+    <!-- Thông báo khi không có đơn -->
+    <TextView
+        android:id="@+id/tvEmptyOrders"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Bạn chưa có đơn hàng nào."
+        android:textAlignment="center"
+        android:gravity="center"
+        android:layout_centerInParent="true"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:visibility="gone" />
 
     <!-- Thanh menu ở cuối màn hình -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
