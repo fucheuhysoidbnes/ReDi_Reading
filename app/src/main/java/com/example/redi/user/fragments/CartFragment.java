@@ -111,7 +111,7 @@ public class CartFragment extends Fragment implements CartAdapter.CartActionList
         for (CartItem item : adapter.getSelectedItems()) {
             totalPrice += item.getPrice() * item.getQty();
         }
-        tvTotalPrice.setText("Số tiền phải thanh toán: " + totalPrice + "₫");
+        tvTotalPrice.setText("Tổng tiền: " + totalPrice + "VND");
     }
 
     /** Thanh toán các sản phẩm đã chọn */
@@ -143,7 +143,7 @@ public class CartFragment extends Fragment implements CartAdapter.CartActionList
         if (currentCart == null) return;
         List<CartItem> selected = adapter.getSelectedItems();
         if (selected.isEmpty()) {
-            Toast.makeText(requireContext(), "Hãy chọn sản phẩm để xoá", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), "Chọn sản phẩm để xoá", Toast.LENGTH_SHORT).show();
             return;
         }
 

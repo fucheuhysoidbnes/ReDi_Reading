@@ -4,7 +4,7 @@
     <!-- Khi người dùng nhấn giữ -->
     <item android:state_pressed="true">
         <shape android:shape="oval">
-            <solid android:color="@color/purple_500" />
+            <solid android:color="@color/gray" />
             <size android:width="32dp" android:height="32dp" />
         </shape>
     </item>
@@ -12,7 +12,7 @@
     <!-- Trạng thái bình thường -->
     <item>
         <shape android:shape="oval">
-            <solid android:color="@color/purple_200" />
+            <solid android:color="@color/gray" />
             <size android:width="32dp" android:height="32dp" />
             <corners android:radius="16dp" />
         </shape>

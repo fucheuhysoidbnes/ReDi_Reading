@@ -2,7 +2,7 @@
     android:orientation="horizontal"
     android:padding="8dp"
     android:gravity="center_vertical"
-    android:background="@android:color/white"
+    android:background="@color/background"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="6dp"
@@ -40,7 +40,7 @@
 
         <TextView
             android:id="@+id/tvPrice"
-            android:textColor="@color/purple_500"
+            android:textColor="@color/text_color"
             android:textSize="14sp"
             android:text="0₫"
             android:layout_marginBottom="6dp"
@@ -57,7 +57,7 @@
                 android:id="@+id/btnMinus"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:backgroundTint="@color/purple_200"
+                android:backgroundTint="@color/brown"
                 android:src="@drawable/ic_minus"
                 android:background="@drawable/btn_round"/>
 
@@ -74,7 +74,7 @@
                 android:id="@+id/btnPlus"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:backgroundTint="@color/purple_200"
+                android:backgroundTint="@color/brown"
                 android:src="@drawable/ic_plus"
                 android:background="@drawable/btn_round"/>
         </LinearLayout>
