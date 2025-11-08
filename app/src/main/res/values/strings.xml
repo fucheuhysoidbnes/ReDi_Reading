@@ -1,3 +1,38 @@
 <resources>
-    <string name="app_name">ReDi</string>
+    <!-- ======= Giao diện thanh toán ======= -->
+    <string name="title_payment">Thanh toán</string>
+    <string name="payment_method_title">Phương thức thanh toán</string>
+    <string name="payment_breakdown_title">Chi tiết thanh toán</string>
+    <string name="button_payment">Thanh toán</string>
+    <string name="button_confirm">Xác nhận</string>
+
+    <!-- ======= Phần địa chỉ ======= -->
+    <string name="section_address_display">Hiển thị địa chỉ</string>
+    <string name="section_address_new">Nhập mới</string>
+    <string name="section_address_saved">Địa chỉ đã lưu</string>
+    <string name="label_saved_addresses">Địa chỉ đã lưu</string>
+
+    <!-- ======= Hint & label ======= -->
+    <string name="hint_name">Họ và tên</string>
+    <string name="hint_phone">Số điện thoại</string>
+    <string name="hint_address">Địa chỉ</string>
+
+    <!-- ======= Text mặc định khi chưa có dữ liệu ======= -->
+    <string name="default_name">Nguyễn Hoàng Phúc</string>
+    <string name="default_phone">SĐT: 0901 234 567</string>
+    <string name="default_address">Số 97 Ngõ 70 Văn Trì, Bắc Từ Liêm, Hà Nội</string>
+
+    <!-- ======= Phương thức thanh toán ======= -->
+    <string name="payment_cod">Thanh toán khi nhận hàng (COD)</string>
+    <string name="payment_ewallet">Ví điện tử</string>
+    <string name="payment_bank_card">Thẻ ngân hàng</string>
+
+    <!-- ======= Chi tiết thanh toán ======= -->
+    <string name="label_subtotal">Tổng tiền hàng</string>
+    <string name="label_shipping">Chi phí vận chuyển</string>
+    <string name="label_total_payment">Tổng thanh toán</string>
+    <string name="label_final_total">Tổng</string>
+
+    <!-- ======= Text chung ======= -->
+    <string name="app_name">Ứng dụng bán sách tiểu thuyết</string>
 </resources>
