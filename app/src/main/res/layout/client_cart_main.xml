@@ -3,16 +3,91 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background">
 
-    <!-- Khu vực hiển thị nội dung (ví dụ: fragment) -->
-    <FrameLayout
-        android:id="@+id/containerUser"
+    <!-- Khu vực nội dung chính -->
+    <LinearLayout
+        android:id="@+id/cartContent"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/bottomNavigationUser" />
+        android:layout_above="@id/bottomNavigationUser"
+        android:padding="16dp">
 
-    <!-- Thanh menu ở cuối màn hình -->
+        <!-- Tiêu đề + nút chuyển chế độ xóa -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp">
+
+            <TextView
+                android:id="@+id/tvCartTitle"
+                android:text="Giỏ hàng của bạn"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_color"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <!-- Nút bật chế độ xóa -->
+            <ImageView
+                android:id="@+id/btnDeleteMode"
+                android:src="@drawable/ic_delete"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_alignParentEnd="true"
+                android:padding="4dp"
+                android:contentDescription="Xóa sản phẩm"
+                android:tint="@color/brown" />
+        </RelativeLayout>
+
+        <!-- Danh sách sản phẩm -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvCartItems"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:padding="8dp"
+            android:scrollbars="vertical" />
+
+        <!-- Tổng cộng + Thanh toán / Xóa -->
+        <LinearLayout
+            android:id="@+id/layoutTotalAndCheckout"
+            android:orientation="horizontal"
+            android:gravity="end|center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp">
+
+            <!-- Tổng tiền (ẩn khi chế độ xóa) -->
+            <TextView
+                android:id="@+id/tvTotalAmount"
+                android:text="Tổng cộng: 0đ"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_color"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp" />
+
+            <!-- Nút Thanh toán (đổi thành Xóa khi bật delete mode) -->
+            <Button
+                android:id="@+id/btnCheckout"
+                android:text="Thanh toán"
+                android:textAllCaps="false"
+                android:textSize="16sp"
+                android:textColor="@android:color/white"
+                android:backgroundTint="@color/brown"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="8dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Thanh menu ở cuối -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationUser"
         android:layout_width="match_parent"
@@ -22,5 +97,4 @@
         app:itemIconTint="@color/brown"
         app:itemTextColor="@color/brown"
         android:background="?android:attr/windowBackground" />
-
 </RelativeLayout>
