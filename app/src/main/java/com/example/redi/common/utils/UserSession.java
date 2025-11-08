@@ -12,14 +12,15 @@ public class UserSession {
         cache = AppCache.getInstance();
     }
 
-    /** ✅ Lưu user vào cả cache và SharedPreferences */
+    /**  Lưu user vào cả cache và SharedPreferences */
     public void saveUser(User user) {
         if (user == null) return;
         cache.setCurrentUser(user);
         session.saveLogin(user.getId(), user.getEmail(), user.getRole());
+        SessionObserver.getInstance().notifyChange();
     }
 
-    /** ✅ Lấy user hiện tại: ưu tiên cache, fallback SharedPref */
+    /** Lấy user hiện tại: ưu tiên cache, fallback SharedPref */
     public User getCurrentUser() {
         if (cache.hasUser()) {
             return cache.getCurrentUser();
@@ -35,14 +36,15 @@ public class UserSession {
         return null;
     }
 
-    /** ✅ Kiểm tra login */
+    /** Kiểm tra login */
     public boolean isLoggedIn() {
         return session.isLoggedIn();
     }
 
-    /** ✅ Đăng xuất toàn hệ thống */
+    /** Đăng xuất toàn hệ thống */
     public void logout() {
         cache.clear();
         session.logout();
+        SessionObserver.getInstance().notifyChange();
     }
 }

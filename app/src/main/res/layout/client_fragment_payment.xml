@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="#FAF8F6"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- 🔙 Thanh tiêu đề -->
+    <LinearLayout
+        android:id="@+id/headerPayment"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@color/brown"
+        android:padding="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/btnBack"
+            android:src="@drawable/ic_back"
+            android:layout_width="24dp"
+            android:layout_height="24dp" />
+
+        <TextView
+            android:text="Thanh toán VietQR"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_marginStart="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <!-- 🔳 Nội dung chính -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="Quét mã VietQR để thanh toán"
+                android:textColor="@color/brown"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:layout_marginBottom="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:id="@+id/imgQr"
+                android:layout_width="240dp"
+                android:layout_height="240dp"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/bg_card_brown"
+                android:padding="8dp" />
+
+            <TextView
+                android:id="@+id/tvAmount"
+                android:text="Số tiền: 0₫"
+                android:textColor="#222"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="6dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/tvTimer"
+                android:text="Thời gian còn lại: 60s"
+                android:textColor="#A52A2A"
+                android:textSize="14sp"
+                android:layout_marginBottom="24dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <!-- 🏦 Danh sách ngân hàng -->
+            <TextView
+                android:text="Chọn ngân hàng thanh toán:"
+                android:textColor="@color/brown"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <LinearLayout
+                android:id="@+id/bankContainer"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageButton
+                    android:id="@+id/btnMB"
+                    android:src="@drawable/ic_mbbank"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_margin="6dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:background="@drawable/bg_bank_item"
+                    android:contentDescription="MB Bank" />
+
+                <ImageButton
+                    android:id="@+id/btnVCB"
+                    android:src="@drawable/ic_vietcombank"
+                    android:background="@drawable/bg_bank_item"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_margin="6dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:contentDescription="Vietcombank" />
+
+                <ImageButton
+                    android:id="@+id/btnBIDV"
+                    android:src="@drawable/ic_bidv"
+                    android:background="@drawable/bg_bank_item"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_margin="6dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:contentDescription="BIDV" />
+
+                <ImageButton
+                    android:id="@+id/btnZaloPay"
+                    android:src="@drawable/ic_zalopay"
+                    android:background="@drawable/bg_bank_item"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_margin="6dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:contentDescription="ZaloPay" />
+            </LinearLayout>
+
+            <!-- 🔘 Nút thao tác -->
+            <LinearLayout
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp">
+
+                <Button
+                    android:id="@+id/btnCancel"
+                    android:text="Huỷ"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    android:backgroundTint="#D3C4B5"
+                    android:textColor="#5A3E2A"
+                    android:textStyle="bold"
+                    android:padding="12dp" />
+
+                <Button
+                    android:id="@+id/btnConfirm"
+                    android:text="Xác nhận thanh toán"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/brown"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold"
+                    android:padding="12dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
