@@ -47,6 +47,7 @@
         android:id="@+id/containerUser"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@id/bottomNavigationUser"
         android:visibility="gone" />
 
     <!-- Thanh bottom navigation -->

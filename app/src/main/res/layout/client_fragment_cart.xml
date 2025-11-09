@@ -3,6 +3,15 @@
     android:background="@color/background"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/tvLoginNotice"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="Bạn cần đăng nhập để xem giỏ hàng"
+        android:textColor="@color/brown"
+        android:textSize="16sp"
+        android:visibility="gone"/>
 
     <ProgressBar
         android:id="@+id/progressBar"
