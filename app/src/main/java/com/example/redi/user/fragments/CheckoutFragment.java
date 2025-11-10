@@ -100,7 +100,6 @@ public class CheckoutFragment extends Fragment {
 
         order.setPayment(payment);
 
-        // Chuyển tiếp đến fragment hiển thị QR nếu chọn online
         if (paymentMethod.equals("bank_transfer")) {
             requireActivity().getSupportFragmentManager()
                     .beginTransaction()
@@ -117,8 +116,14 @@ public class CheckoutFragment extends Fragment {
             @Override
             public void onSuccess(Void result) {
                 Toast.makeText(requireContext(), "Đặt hàng thành công!", Toast.LENGTH_SHORT).show();
-                removeFromCart(order.getBooklist());
-                requireActivity().getSupportFragmentManager().popBackStack();
+
+                // Xóa giỏ hàng xong mới quay lại
+                removeFromCart(order.getBooklist(), () -> {
+                    requireActivity().getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.containerUser, new CartFragment(), "CartFragment")
+                            .commitAllowingStateLoss();
+                });
             }
 
             @Override
@@ -128,28 +133,40 @@ public class CheckoutFragment extends Fragment {
         });
     }
 
-    /** 🧹 Xóa sản phẩm khỏi giỏ hàng khi đặt xong */
-    private void removeFromCart(Map<String, CartItem> booklist) {
+    private void removeFromCart(Map<String, CartItem> booklist, Runnable onComplete) {
         String uid = FirebaseAuth.getInstance().getUid();
-        if (uid == null) return;
+        if (uid == null) {
+            if (onComplete != null) onComplete.run();
+            return;
+        }
 
         cartRepo.findCartByUser(uid, new DataSourceCallback<com.example.redi.common.models.Cart>() {
             @Override
             public void onSuccess(com.example.redi.common.models.Cart cart) {
-                if (cart == null) return;
+                if (cart == null) {
+                    if (onComplete != null) onComplete.run();
+                    return;
+                }
 
+                final int[] pending = {booklist.size()};
                 for (String bookId : booklist.keySet()) {
                     FirebaseDatabase.getInstance()
                             .getReference("carts")
                             .child(cart.getCartId())
                             .child("booklist")
                             .child(bookId)
-                            .removeValue();
+                            .removeValue()
+                            .addOnCompleteListener(task -> {
+                                pending[0]--;
+                                if (pending[0] <= 0 && onComplete != null) onComplete.run();
+                            });
                 }
             }
 
             @Override
-            public void onError(String error) { }
+            public void onError(String error) {
+                if (onComplete != null) onComplete.run();
+            }
         });
     }
 }
