@@ -50,7 +50,7 @@ public class CartFragment extends Fragment implements CartAdapter.CartActionList
 
         // Thêm TextView thông báo đăng nhập (tạo động, vì XML cũ chưa có)
         tvLoginNotice = new TextView(requireContext());
-        tvLoginNotice.setText("Bạn cần đăng nhập để xem giỏ hàng");
+        tvLoginNotice.setText("Bạn cần đăng nhập để xem giỏ hàng.");
         tvLoginNotice.setTextColor(getResources().getColor(R.color.brown));
         tvLoginNotice.setTextSize(16);
         tvLoginNotice.setGravity(Gravity.CENTER);
