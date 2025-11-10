@@ -47,7 +47,6 @@ public class PaymentFragment extends Fragment {
         tvAmount = v.findViewById(R.id.tvAmount);
         btnCancel = v.findViewById(R.id.btnCancel);
         btnConfirm = v.findViewById(R.id.btnConfirm);
-
         btnMB = v.findViewById(R.id.btnMB);
         btnVCB = v.findViewById(R.id.btnVCB);
         btnBIDV = v.findViewById(R.id.btnBIDV);
@@ -73,10 +72,16 @@ public class PaymentFragment extends Fragment {
             orderRepo.createOrder(order, new DataSourceCallback<Void>() {
                 @Override
                 public void onSuccess(Void r) {
-                    removeFromCart(order);
                     Toast.makeText(requireContext(), "Thanh toán thành công!", Toast.LENGTH_SHORT).show();
-                    requireActivity().getSupportFragmentManager().popBackStack();
+
+                    removeFromCart(order, () -> {
+                        requireActivity().getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.containerUser, new CartFragment(), "CartFragment")
+                                .commitAllowingStateLoss();
+                    });
                 }
+
                 @Override
                 public void onError(String e) {
                     Toast.makeText(requireContext(), "Lỗi: " + e, Toast.LENGTH_SHORT).show();
@@ -84,7 +89,6 @@ public class PaymentFragment extends Fragment {
             });
         });
 
-        // 🏦 Mở app ngân hàng tương ứng
         btnMB.setOnClickListener(v1 -> openBankApp("mbbank://"));
         btnVCB.setOnClickListener(v1 -> openBankApp("vcbpay://"));
         btnBIDV.setOnClickListener(v1 -> openBankApp("bidvsmartbanking://"));
@@ -102,24 +106,40 @@ public class PaymentFragment extends Fragment {
         }
     }
 
-    private void removeFromCart(Order order) {
+    private void removeFromCart(Order order, Runnable onComplete) {
         String uid = FirebaseAuth.getInstance().getUid();
-        if (uid == null) return;
+        if (uid == null) {
+            if (onComplete != null) onComplete.run();
+            return;
+        }
 
         cartRepo.findCartByUser(uid, new DataSourceCallback<com.example.redi.common.models.Cart>() {
             @Override
             public void onSuccess(com.example.redi.common.models.Cart cart) {
-                if (cart == null) return;
+                if (cart == null) {
+                    if (onComplete != null) onComplete.run();
+                    return;
+                }
+
+                final int[] pending = {order.getBooklist().size()};
                 for (String bookId : order.getBooklist().keySet()) {
                     FirebaseDatabase.getInstance()
                             .getReference("carts")
                             .child(cart.getCartId())
                             .child("booklist")
                             .child(bookId)
-                            .removeValue();
+                            .removeValue()
+                            .addOnCompleteListener(task -> {
+                                pending[0]--;
+                                if (pending[0] <= 0 && onComplete != null) onComplete.run();
+                            });
                 }
             }
-            @Override public void onError(String error) {}
+
+            @Override
+            public void onError(String error) {
+                if (onComplete != null) onComplete.run();
+            }
         });
     }
 
