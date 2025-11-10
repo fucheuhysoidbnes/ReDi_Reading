@@ -62,7 +62,7 @@ public class AccountActivity extends BaseUserActivity {
     /** Giao diện khách vãng lai */
     private void showGuestLayout() {
         ivAvatar.setImageResource(R.drawable.ic_account);
-        tvFullName.setText("Khách vãng lai");
+        tvFullName.setText("User");
         tvEmail.setText("Email");
         tvPhone.setText("Số điện thoại");
         tvAddress.setText("Địa chỉ");
