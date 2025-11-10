@@ -100,7 +100,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Mô tả chi tiết"
+            android:text="Mô tả:"
             android:textColor="@color/text_color"
             android:textStyle="bold" />
 
