@@ -13,6 +13,8 @@ import com.example.redi.R;
 import com.example.redi.auth.LoginActivity;
 import com.example.redi.common.base.BaseUserActivity;
 import com.example.redi.common.models.User;
+import com.example.redi.common.utils.AppCache;
+import com.example.redi.common.utils.UserSession;
 import com.example.redi.user.fragments.UpdateAccountFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.*;
@@ -20,13 +22,12 @@ import com.google.firebase.database.*;
 public class AccountActivity extends BaseUserActivity {
 
     private ImageView ivAvatar;
-    private TextView tvFullName, tvEmail, tvPhone, tvAddress, tvTotalSpent;
+    private TextView tvFullName, tvEmail, tvPhone, tvAddress;
     private Button btnEditInfo, btnLogout;
 
     private FirebaseAuth auth;
     private DatabaseReference userRef;
-
-    private boolean isLoggedIn = false;
+    private UserSession userSession;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,33 +45,30 @@ public class AccountActivity extends BaseUserActivity {
 
         auth = FirebaseAuth.getInstance();
         userRef = FirebaseDatabase.getInstance().getReference("users");
+        userSession = new UserSession(this);
 
         checkLoginStatus();
     }
 
-    /**
-     * Kiểm tra trạng thái đăng nhập
-     **/
+    /** Kiểm tra login và hiển thị */
     private void checkLoginStatus() {
-        if (auth.getCurrentUser() == null) {
-            // ❌ Chưa đăng nhập
-            isLoggedIn = false;
+        if (auth.getCurrentUser() == null || !userSession.isLoggedIn()) {
             showGuestLayout();
         } else {
-            // ✅ Đã đăng nhập
-            isLoggedIn = true;
             loadUserInfo(auth.getCurrentUser().getUid());
         }
     }
 
-    /**
-     * Giao diện khi chưa đăng nhập
-     **/
+    /** Giao diện khách vãng lai */
     private void showGuestLayout() {
         ivAvatar.setImageResource(R.drawable.ic_account);
+        tvFullName.setText("User");
+        tvEmail.setText("Email");
+        tvPhone.setText("Số điện thoại");
+        tvAddress.setText("Địa chỉ");
 
         btnEditInfo.setEnabled(false);
-        btnEditInfo.setAlpha(0.5f); // làm mờ nút không bấm được
+        btnEditInfo.setAlpha(0.5f);
 
         btnLogout.setText("Đăng nhập");
         btnLogout.setOnClickListener(v -> {
@@ -79,27 +77,18 @@ public class AccountActivity extends BaseUserActivity {
         });
     }
 
-    /**
-     * Load thông tin người dùng khi đã đăng nhập
-     **/
+    /** 🔹 Load thông tin từ Firebase */
     private void loadUserInfo(String userId) {
         userRef.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
                 if (user != null) {
-                    tvFullName.setText(user.getName());
-                    tvEmail.setText("Email: " + user.getEmail());
-                    tvPhone.setText("Số điện thoại: " + user.getPhone());
-                    tvAddress.setText("Địa chỉ: " + user.getAddress());
+                    updateUI(user);
 
-                    if (user.getAvatarUrl() != null && !user.getAvatarUrl().isEmpty()) {
-                        Glide.with(AccountActivity.this)
-                                .load(user.getAvatarUrl())
-                                .into(ivAvatar);
-                    } else {
-                        ivAvatar.setImageResource(R.drawable.ic_account);
-                    }
+                    // Lưu user vào session & cache
+                    userSession.saveUser(user);
+                    AppCache.getInstance().setCurrentUser(user);
                 }
             }
 
@@ -109,11 +98,9 @@ public class AccountActivity extends BaseUserActivity {
             }
         });
 
-        // ✅ Đã đăng nhập thì bật nút
         btnEditInfo.setEnabled(true);
         btnEditInfo.setAlpha(1f);
 
-        // Nút Cập nhật thông tin → mở fragment UpdateAccountFragment
         btnEditInfo.setOnClickListener(v -> {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.containerUser, new UpdateAccountFragment())
@@ -121,33 +108,55 @@ public class AccountActivity extends BaseUserActivity {
                     .commit();
         });
 
-        // Nút Đăng xuất → xác nhận + đăng xuất
         btnLogout.setText("Đăng xuất");
         btnLogout.setOnClickListener(v -> showLogoutDialog());
     }
 
-    /**
-     * Hộp thoại xác nhận đăng xuất
-     **/
+    /** Hàm dùng lại để cập nhật giao diện */
+    private void updateUI(User user) {
+        tvFullName.setText(user.getName());
+        tvEmail.setText("Email: " + user.getEmail());
+        tvPhone.setText("Số điện thoại: " + user.getPhone());
+        tvAddress.setText("Địa chỉ: " + user.getAddress());
+
+        if (user.getAvatarUrl() != null && !user.getAvatarUrl().isEmpty()) {
+            Glide.with(AccountActivity.this).load(user.getAvatarUrl()).into(ivAvatar);
+        } else {
+            ivAvatar.setImageResource(R.drawable.ic_account);
+        }
+    }
+
+    /**  Làm mới khi cập nhật user */
+    public void reloadUserData() {
+        User user = userSession.getCurrentUser();
+        if (user != null) {
+            updateUI(user);
+        }
+    }
+
+    /** Đăng xuất */
     private void showLogoutDialog() {
         new AlertDialog.Builder(this)
                 .setTitle("Xác nhận đăng xuất")
                 .setMessage("Bạn có chắc chắn muốn đăng xuất không?")
                 .setPositiveButton("Đăng xuất", (dialog, which) -> {
+                    // Xoá session & cache
+                    userSession.logout();
+                    AppCache.getInstance().clear();
+
+                    //  Đăng xuất Firebase
                     auth.signOut();
-                    startActivity(new Intent(this, MainUserActivity.class));
+
+                    //  Về trang chính
+                    Intent intent = new Intent(this, MainUserActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+
+                    Toast.makeText(this, "Đăng xuất thành công", Toast.LENGTH_SHORT).show();
                     finish();
                 })
                 .setNegativeButton("Hủy", (dialog, which) -> dialog.dismiss())
                 .setCancelable(false)
                 .show();
     }
-
-    public void reloadUserData() {
-        if (auth != null && auth.getCurrentUser() != null) {
-            loadUserInfo(auth.getCurrentUser().getUid());
-        }
-    }
-
 }
-

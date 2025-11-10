@@ -25,7 +25,7 @@ public class SessionManager {
         editor = prefs.edit();
     }
 
-    // ✅ Lưu thông tin đăng nhập đầy đủ
+    // Lưu thông tin đăng nhập đầy đủ
     public void saveUser(User user) {
         if (user == null) return;
 
@@ -40,7 +40,7 @@ public class SessionManager {
         editor.apply();
     }
 
-    // ✅ Lưu thông tin cơ bản khi chỉ có uid, email, role
+    // Lưu thông tin cơ bản khi chỉ có uid, email, role
     public void saveLogin(String uid, String email, String role) {
         editor.putString(KEY_USER_ID, uid);
         editor.putString(KEY_EMAIL, email);
@@ -81,7 +81,7 @@ public class SessionManager {
         return prefs.getString(KEY_AVATAR, "");
     }
 
-    // ✅ Lấy toàn bộ user dưới dạng object
+    //  Lấy toàn bộ user dưới dạng object
     public User getUser() {
         if (!isLoggedIn()) return null;
 
@@ -96,7 +96,7 @@ public class SessionManager {
         return u;
     }
 
-    // ✅ Đăng xuất
+    // Đăng xuất
     public void logout() {
         editor.clear();
         editor.apply();

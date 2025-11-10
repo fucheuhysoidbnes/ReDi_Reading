@@ -54,6 +54,8 @@ dependencies {
     implementation("com.github.mhiew:android-pdf-viewer:3.2.0-beta.1") {
         exclude(group = "com.android.support") // loại bỏ support v4 cũ
     }
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
     // 📄 Thư viện đọc PDF (AndroidX version - bản ổn định)
     implementation("com.github.mhiew:android-pdf-viewer:3.2.0-beta.1")

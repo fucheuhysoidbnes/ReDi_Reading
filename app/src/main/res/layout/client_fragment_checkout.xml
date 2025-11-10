@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FAF8F6">
+
+    <!-- 🔙 Thanh tiêu đề -->
+    <LinearLayout
+        android:id="@+id/headerCheckout"
+        android:orientation="horizontal"
+        android:padding="12dp"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/brown">
+
+        <ImageView
+            android:id="@+id/btnBack"
+            android:src="@drawable/ic_back"
+            android:layout_width="24dp"
+            android:layout_height="24dp" />
+
+        <TextView
+            android:text="Xác nhận đặt hàng"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_marginStart="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <!-- Nội dung -->
+    <ScrollView
+        android:id="@+id/scrollCheckout"
+        android:layout_below="@id/headerCheckout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="Thông tin giao hàng"
+                android:textStyle="bold"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textColor="@color/brown"
+                android:textSize="18sp"
+                android:layout_marginBottom="8dp"/>
+
+            <EditText
+                android:id="@+id/etAddress"
+                android:hint="Địa chỉ nhận hàng"
+                android:background="@drawable/bg_input_brown"
+                android:padding="12dp"
+                android:layout_marginBottom="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <EditText
+                android:id="@+id/etPhone"
+                android:hint="Số điện thoại"
+                android:inputType="phone"
+                android:background="@drawable/bg_input_brown"
+                android:padding="12dp"
+                android:layout_marginBottom="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:text="Phương thức thanh toán"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textStyle="bold"
+                android:textColor="@color/brown"
+                android:textSize="18sp"
+                android:layout_marginBottom="8dp"/>
+
+            <RadioGroup
+                android:id="@+id/rgPayment"
+                android:orientation="vertical"
+                android:background="@drawable/bg_card_brown"
+                android:padding="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RadioButton
+                    android:id="@+id/rbCOD"
+                    android:text="Trả tiền khi nhận hàng (COD)"
+                    android:textColor="#333"
+                    android:buttonTint="@color/brown"
+                    android:checked="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#D3C4B5"
+                    android:layout_marginVertical="6dp"/>
+
+                <RadioButton
+                    android:id="@+id/rbBank"
+                    android:text="Chuyển khoản ngân hàng (VietQR)"
+                    android:textColor="#333"
+                    android:buttonTint="@color/brown"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </RadioGroup>
+
+            <Button
+                android:id="@+id/btnConfirm"
+                android:text="Xác nhận đặt hàng"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:backgroundTint="@color/brown"
+                android:layout_marginTop="24dp"
+                android:padding="14dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

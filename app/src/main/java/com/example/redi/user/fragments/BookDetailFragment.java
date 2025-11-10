@@ -1,6 +1,5 @@
 package com.example.redi.user.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.*;
 import android.widget.*;
@@ -11,13 +10,14 @@ import androidx.fragment.app.Fragment;
 import com.bumptech.glide.Glide;
 import com.example.redi.R;
 import com.example.redi.common.models.Book;
-import com.example.redi.common.models.Cart;
 import com.example.redi.common.models.CartItem;
 import com.example.redi.data.DataSourceCallback;
 import com.example.redi.data.repository.CartRepository;
-import com.example.redi.user.fragments.PdfPreviewFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class BookDetailFragment extends Fragment {
     private ImageView ivCover;
@@ -60,20 +60,31 @@ public class BookDetailFragment extends Fragment {
             setupUI();
         }
 
-        btnMinus.setOnClickListener(view -> { if (qty > 1) tvQty.setText(String.valueOf(--qty)); });
-        btnPlus.setOnClickListener(view -> tvQty.setText(String.valueOf(++qty)));
+        btnMinus.setOnClickListener(view -> {
+            if (qty > 1) {
+                qty--;
+                tvQty.setText(String.valueOf(qty));
+            }
+        });
+
+        btnPlus.setOnClickListener(view -> {
+            qty++;
+            tvQty.setText(String.valueOf(qty));
+        });
+
         btnAddCart.setOnClickListener(view -> addToCart());
         btnRead.setOnClickListener(view -> openPdf());
-        btnBuyNow.setOnClickListener(view -> Toast.makeText(requireContext(), "Chức năng thanh toán sẽ thêm sau", Toast.LENGTH_SHORT).show());
+        btnBuyNow.setOnClickListener(view -> buyNow());
 
         return v;
     }
 
     private void setupUI() {
         tvTitle.setText(book.getTitle());
-        tvPrice.setText(String.format("%,d VNĐ", book.getPrice()));
+        tvPrice.setText(String.format("%,d₫", book.getPrice()));
         tvDescription.setText(book.getDescription());
         Glide.with(this).load(book.getImageUrl()).into(ivCover);
+        tvQty.setText(String.valueOf(qty));
     }
 
     private void addToCart() {
@@ -83,11 +94,12 @@ public class BookDetailFragment extends Fragment {
             return;
         }
         String uid = user.getUid();
-        cartRepo.findCartByUser(uid, new DataSourceCallback<Cart>() {
-            @Override public void onSuccess(Cart cart) {
+        cartRepo.findCartByUser(uid, new DataSourceCallback<com.example.redi.common.models.Cart>() {
+            @Override
+            public void onSuccess(com.example.redi.common.models.Cart cart) {
                 if (cart == null) {
-                    cartRepo.createCart(uid, new DataSourceCallback<Cart>() {
-                        @Override public void onSuccess(Cart newCart) { pushItem(newCart.getCartId()); }
+                    cartRepo.createCart(uid, new DataSourceCallback<com.example.redi.common.models.Cart>() {
+                        @Override public void onSuccess(com.example.redi.common.models.Cart newCart) { pushItem(newCart.getCartId()); }
                         @Override public void onError(String error) { Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show(); }
                     });
                 } else pushItem(cart.getCartId());
@@ -108,13 +120,35 @@ public class BookDetailFragment extends Fragment {
         });
     }
 
+    /** 💳 Mua ngay — chuyển tới CheckoutFragment */
+    private void buyNow() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) {
+            Toast.makeText(requireContext(), "Vui lòng đăng nhập để mua hàng", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Đóng gói dữ liệu sản phẩm thành HashMap để truyền
+        Map<String, CartItem> bookMap = new HashMap<>();
+        CartItem item = new CartItem(book.getBook_id(), book.getTitle(), book.getImageUrl(), book.getPrice(), qty);
+        bookMap.put(book.getBook_id(), item);
+
+        int totalAmount = item.getPrice() * item.getQty();
+
+        CheckoutFragment checkoutFragment = CheckoutFragment.newInstance(totalAmount, bookMap);
+        requireActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.containerUser, checkoutFragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
     private void openPdf() {
         if (book.getContent() == null || book.getContent().isEmpty()) {
             Toast.makeText(requireContext(), "Không có nội dung đọc thử", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // ✅ chuyển sang PdfPreviewFragment để hiển thị trong MainUserActivity
         PdfPreviewFragment fragment = PdfPreviewFragment.newInstance(book.getContent());
         requireActivity().getSupportFragmentManager()
                 .beginTransaction()
@@ -122,5 +156,4 @@ public class BookDetailFragment extends Fragment {
                 .addToBackStack(null)
                 .commit();
     }
-
 }

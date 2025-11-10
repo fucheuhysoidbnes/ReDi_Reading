@@ -43,11 +43,11 @@ public class SplashActivity extends AppCompatActivity {
 
         userSession = new UserSession(this);
 
-        // ✅ Load song song dữ liệu sách + user
+        //  Load song song dữ liệu sách + user
         preloadBooks();
         preloadUser();
 
-        // ✅ Sau SPLASH_DELAY giây → chuyển màn hình (kể cả khi dữ liệu chưa xong)
+        //  Sau SPLASH_DELAY giây → chuyển màn hình (kể cả khi dữ liệu chưa xong)
         new Handler().postDelayed(this::goNextScreen, SPLASH_DELAY);
     }
 
@@ -58,13 +58,13 @@ public class SplashActivity extends AppCompatActivity {
             public void onSuccess(List<Book> data) {
                 AppCache.getInstance().setBooks(data);
                 booksLoaded = true;
-                System.out.println("✅ Books preloaded: " + data.size());
+                System.out.println(" Books preloaded: " + data.size());
             }
 
             @Override
             public void onError(String error) {
                 booksLoaded = true; // vẫn cho phép vào app
-                System.err.println("⚠️ Preload books error: " + error);
+                System.err.println(" Preload books error: " + error);
             }
         });
     }
@@ -74,7 +74,7 @@ public class SplashActivity extends AppCompatActivity {
         User cached = userSession.getCurrentUser();
         if (cached == null || cached.getId() == null) {
             userLoaded = true;
-            System.out.println("⚠️ No cached user -> skip preload user");
+            System.out.println(" No cached user -> skip preload user");
             return;
         }
 
@@ -84,7 +84,7 @@ public class SplashActivity extends AppCompatActivity {
             public void onSuccess(User user) {
                 if (user != null) {
                     userSession.saveUser(user);
-                    System.out.println("✅ User preloaded: " + user.getEmail());
+                    System.out.println(" User preloaded: " + user.getEmail());
                 }
                 userLoaded = true;
             }
@@ -92,7 +92,7 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void onError(String error) {
                 userLoaded = true;
-                System.err.println("⚠️ Preload user error: " + error);
+                System.err.println(" Preload user error: " + error);
             }
         });
     }
@@ -101,7 +101,7 @@ public class SplashActivity extends AppCompatActivity {
     private void goNextScreen() {
         // Nếu dữ liệu tải chưa xong, vẫn cho qua để tránh delay
         if (!booksLoaded || !userLoaded) {
-            System.out.println("ℹ️ Dữ liệu chưa tải xong hoàn toàn nhưng tiếp tục...");
+            System.out.println("Dữ liệu chưa tải xong hoàn toàn nhưng tiếp tục...");
         }
 
         Intent intent;
@@ -115,7 +115,7 @@ public class SplashActivity extends AppCompatActivity {
                 intent = new Intent(this, MainUserActivity.class);
             }
         } else {
-            intent = new Intent(this, LoginActivity.class);
+            intent = new Intent(this, MainUserActivity.class);
         }
 
         startActivity(intent);
