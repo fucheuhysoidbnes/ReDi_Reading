@@ -16,7 +16,9 @@
         android:textStyle="bold"
         android:textSize="18sp"
         android:gravity="center"
-        android:padding="16dp" />
+        android:padding="10dp"
+        android:layout_marginTop="20dp"/>
+
 
     <!-- Danh sách đơn hàng -->
     <androidx.recyclerview.widget.RecyclerView
@@ -73,15 +75,16 @@
             android:id="@+id/viewPagerOrders"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_weight="1" >
+
+            <FrameLayout
+                android:id="@+id/containerUser"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </androidx.viewpager2.widget.ViewPager2>
     </LinearLayout>
 
     <!-- 🟩 FrameLayout để hiển thị OrderDetailFragment khi xem chi tiết -->
-    <FrameLayout
-        android:id="@+id/containerUser"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/bottomNavigationUser"/>
 
     <!-- Thanh bottom navigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
