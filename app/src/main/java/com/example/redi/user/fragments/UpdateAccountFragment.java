@@ -16,6 +16,9 @@ import androidx.fragment.app.Fragment;
 
 import com.example.redi.R;
 import com.example.redi.common.models.User;
+import com.example.redi.common.utils.AppCache;
+import com.example.redi.common.utils.SessionObserver;
+import com.example.redi.common.utils.UserSession;
 import com.example.redi.user.activities.AccountActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.*;
@@ -27,6 +30,7 @@ public class UpdateAccountFragment extends Fragment {
 
     private DatabaseReference userRef;
     private FirebaseAuth auth;
+    private UserSession userSession;
 
     @Nullable
     @Override
@@ -34,7 +38,6 @@ public class UpdateAccountFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.client_fragment_account_update, container, false);
 
-        // Khởi tạo view
         etName = v.findViewById(R.id.etName);
         etEmail = v.findViewById(R.id.etEmail);
         etPhone = v.findViewById(R.id.etPhone);
@@ -44,15 +47,13 @@ public class UpdateAccountFragment extends Fragment {
 
         auth = FirebaseAuth.getInstance();
         userRef = FirebaseDatabase.getInstance().getReference("users");
+        userSession = new UserSession(requireContext());
 
         if (auth.getCurrentUser() != null) {
             loadUserInfo(auth.getCurrentUser().getUid());
         }
 
-        // Nút lưu thay đổi
         btnSave.setOnClickListener(v1 -> confirmSave());
-
-        // Nút hủy (quay lại)
         btnCancel.setOnClickListener(v2 -> requireActivity().onBackPressed());
 
         return v;
@@ -78,7 +79,6 @@ public class UpdateAccountFragment extends Fragment {
         });
     }
 
-    // ⚙️ Hiển thị dialog xác nhận trước khi lưu
     private void confirmSave() {
         new AlertDialog.Builder(requireContext())
                 .setTitle("Xác nhận cập nhật")
@@ -107,34 +107,43 @@ public class UpdateAccountFragment extends Fragment {
 
         String userId = auth.getCurrentUser().getUid();
 
-        // Tạo object User mới với dữ liệu mới
+        // Giữ nguyên avatar & role cũ
+        User currentUser = userSession.getCurrentUser();
+        String avatar = (currentUser != null && currentUser.getAvatarUrl() != null)
+                ? currentUser.getAvatarUrl() : "";
+        String role = (currentUser != null && currentUser.getRole() != null)
+                ? currentUser.getRole() : "user";
+
+        // Tạo user cập nhật
         User updatedUser = new User();
         updatedUser.setId(userId);
         updatedUser.setName(name);
         updatedUser.setEmail(email);
         updatedUser.setPhone(phone);
         updatedUser.setAddress(address);
-        updatedUser.setAvatarUrl(""); // giữ nguyên rỗng, sau có thể cập nhật sau
-        updatedUser.setRole("user");  // hoặc lấy role cũ nếu có
+        updatedUser.setAvatarUrl(avatar);
+        updatedUser.setRole(role);
 
-        // Ghi đè toàn bộ node user hiện tại bằng object này
+        // Ghi đè Firebase
         userRef.child(userId)
                 .setValue(updatedUser)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(getContext(), "Cập nhật thành công!", Toast.LENGTH_SHORT).show();
 
-                    // Gửi tín hiệu về Activity cha để reload
+                    //Cập nhật session & cache
+                    userSession.saveUser(updatedUser);
+                    AppCache.getInstance().setCurrentUser(updatedUser);
+                    SessionObserver.getInstance().notifyChange();
+
+                    // Gọi hàm reload trong AccountActivity
                     if (getActivity() instanceof AccountActivity) {
                         ((AccountActivity) getActivity()).reloadUserData();
                     }
 
-                    // Quay lại
                     requireActivity().getSupportFragmentManager().popBackStack();
                 })
-
                 .addOnFailureListener(e -> {
                     Toast.makeText(getContext(), "Lỗi: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
-
 }

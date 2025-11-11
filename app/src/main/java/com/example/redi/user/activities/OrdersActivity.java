@@ -4,57 +4,61 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.redi.R;
 import com.example.redi.common.base.BaseUserActivity;
-import com.example.redi.user.adapters.OrdersAdapter;
-import com.example.redi.user.data.Order;
+import com.example.redi.common.utils.Constants;
+import com.example.redi.common.utils.UserSession;
+import com.example.redi.user.adapters.OrderPagerAdapter;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
-import java.util.ArrayList;
-import java.util.List;
+public class OrdersActivity extends BaseUserActivity {
 
-public class OrdersActivity extends BaseUserActivity { // kế thừa BaseUserActivity
-
-    private RecyclerView recyclerOrders;
-    private TextView tvEmptyOrders;
-    private OrdersAdapter adapter;
-    private List<Order> orderList;
+    private TabLayout tabLayout;
+    private ViewPager2 viewPager;
+    private TextView tvLoginNotice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.client_orders_main);
 
-        // ✅ Gắn menu hiện tại (tab “Đơn hàng”)
-        setupBottomNavigation(R.id.menu_orders);
+        // Ánh xạ view
+        tabLayout = findViewById(R.id.tabLayoutOrders);
+        viewPager = findViewById(R.id.viewPagerOrders);
+        tvLoginNotice = findViewById(R.id.tvLoginNotice);
 
-        recyclerOrders = findViewById(R.id.recyclerOrders);
-        tvEmptyOrders = findViewById(R.id.tvEmptyOrders);
+        UserSession session = new UserSession(this);
 
-        orderList = new ArrayList<>();
-
-        // 🔹 Dữ liệu giả để test hiển thị
-//        orderList.add(new Order("#001", "user123", "07/11/2025", "150.000đ",
-//                "Đang giao", "Thanh toán khi nhận hàng", "Hà Nội, Việt Nam"));
-//
-//        orderList.add(new Order("#002", "user123", "03/11/2025", "250.000đ",
-//                "Đã giao thành công", "Chuyển khoản", "TP.HCM, Việt Nam"));
-//
-//        orderList.add(new Order("#003", "user123", "01/11/2025", "99.000đ",
-//                "Đã thanh toán", "Momo", "Đà Nẵng, Việt Nam"));
-
-        if (orderList.isEmpty()) {
-            tvEmptyOrders.setVisibility(View.VISIBLE);
-            recyclerOrders.setVisibility(View.GONE);
-        } else {
-            tvEmptyOrders.setVisibility(View.GONE);
-            recyclerOrders.setVisibility(View.VISIBLE);
-
-            recyclerOrders.setLayoutManager(new LinearLayoutManager(this));
-            adapter = new OrdersAdapter(orderList);
-            recyclerOrders.setAdapter(adapter);
+        // Nếu chưa đăng nhập
+        if (session.getCurrentUser() == null) {
+            tvLoginNotice.setVisibility(View.VISIBLE);
+            tabLayout.setVisibility(View.GONE);
+            viewPager.setVisibility(View.GONE);
+            setupBottomNavigation(R.id.menu_orders);
+            return;
         }
+
+        // Nếu đã đăng nhập → hiển thị ViewPager + Tab
+        tvLoginNotice.setVisibility(View.GONE);
+        tabLayout.setVisibility(View.VISIBLE);
+        viewPager.setVisibility(View.VISIBLE);
+
+        viewPager.setAdapter(new OrderPagerAdapter(this));
+
+        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
+            if (position == 0) {
+                tab.setText(Constants.STATUS_PENDING);
+            } else if (position == 1) {
+                tab.setText(Constants.STATUS_DELIVERING);
+            } else if (position == 2) {
+                tab.setText(Constants.STATUS_RECEIVED);
+            }
+        }).attach();
+
+        setupBottomNavigation(R.id.menu_orders);
     }
 }

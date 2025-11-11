@@ -22,7 +22,7 @@ public class LoginActivity extends AppCompatActivity {
     TextView tvGoRegister;
     FirebaseAuth auth;
     UserRepository userRepo;
-    UserSession userSession; // ✅ dùng UserSession để lưu user
+    UserSession userSession; // dùng UserSession để lưu user
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         FirebaseUser fuser = auth.getCurrentUser();
                         if (fuser != null) {
-                            // ✅ Gọi repository lấy thông tin user đầy đủ
+                            //  Gọi repository lấy thông tin user đầy đủ
                             userRepo.getUserById(fuser.getUid(), new DataSourceCallback<User>() {
                                 @Override
                                 public void onSuccess(User user) {
@@ -72,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
                                         user.setRole("user");
                                     }
 
-                                    // ✅ Lưu vào UserSession
+                                    // Lưu vào UserSession
                                     userSession.saveUser(user);
 
                                     Toast.makeText(LoginActivity.this,

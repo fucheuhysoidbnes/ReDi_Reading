@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -38,17 +39,58 @@
         android:layout_centerInParent="true"
         android:textSize="16sp"
         android:textColor="@color/black"
-        android:visibility="gone" />
+        android:background="@color/background"/>
 
-    <!-- Thanh menu ở cuối màn hình -->
+    <!-- Hiển thị khi chưa đăng nhập -->
+    <TextView
+        android:id="@+id/tvLoginNotice"
+        android:layout_centerInParent="true"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:padding="16dp"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <!-- Layout nội dung chính -->
+    <LinearLayout
+        android:id="@+id/layoutContent"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottomNavigationUser">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayoutOrders"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabIndicatorColor="@color/brown"
+            app:tabTextColor="@color/black"
+            app:tabSelectedTextColor="@color/brown"/>
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewPagerOrders"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <!-- 🟩 FrameLayout để hiển thị OrderDetailFragment khi xem chi tiết -->
+    <FrameLayout
+        android:id="@+id/containerUser"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottomNavigationUser"/>
+
+    <!-- Thanh bottom navigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationUser"
+        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         app:menu="@menu/menu_user_bottom"
         app:itemIconTint="@color/brown"
-        app:itemTextColor="@color/brown"
-        android:background="?android:attr/windowBackground" />
+        app:itemTextColor="@color/brown" />
 
 </RelativeLayout>
