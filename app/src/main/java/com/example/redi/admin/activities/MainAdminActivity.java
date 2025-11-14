@@ -2,25 +2,23 @@ package com.example.redi.admin.activities;
 
 import android.os.Bundle;
 
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-
 import com.example.redi.R;
+import com.example.redi.admin.fragments.DashboardFragment;
+import com.example.redi.common.base.BaseAdminActivity;
 
-public class MainAdminActivity extends AppCompatActivity {
+public class MainAdminActivity extends BaseAdminActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main_admin);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+
+        openFragment(new DashboardFragment());
+    }
+
+    private void openFragment(DashboardFragment fragment) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.admin_fragment_container, fragment)
+                .commit();
     }
 }
