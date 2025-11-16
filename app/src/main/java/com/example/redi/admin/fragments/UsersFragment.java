@@ -40,7 +40,7 @@ public class UsersFragment extends Fragment implements AdminUserAdapter.OnUserAc
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_users, container, false);
+        return inflater.inflate(R.layout.admin_fragment_user_list, container, false);
     }
 
     @Override
