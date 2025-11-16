@@ -2,4 +2,8 @@
     <string name="app_name">ReDi</string>
     <string name="open_drawer">Open Menu</string>
     <string name="close_drawer">Close Menu</string>
+    <string-array name="user_roles">
+        <item>user</item>
+        <item>admin</item>
+    </string-array>
 </resources>

@@ -45,6 +45,7 @@ public class UserSession {
     public void logout() {
         cache.clear();
         session.logout();
+        com.google.firebase.auth.FirebaseAuth.getInstance().signOut();
         SessionObserver.getInstance().notifyChange();
     }
 }

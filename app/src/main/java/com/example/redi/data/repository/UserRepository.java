@@ -6,6 +6,8 @@ import com.example.redi.data.firebase.FirebaseUserDataSource;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.List;
+
 public class UserRepository {
 
     private final FirebaseUserDataSource ds = new FirebaseUserDataSource();
@@ -14,12 +16,23 @@ public class UserRepository {
         ds.saveUser(user, listener);
     }
 
+    public void deleteUser(String uid, DatabaseReference.CompletionListener listener) {
+        ds.deleteUser(uid, listener);
+    }
+
     public void getUserRole(String uid, ValueEventListener listener) {
         ds.getUserRole(uid, listener);
     }
 
-    // ✅ Thêm mới — lấy đầy đủ thông tin user theo ID
     public void getUserById(String uid, DataSourceCallback<User> callback) {
         ds.getUserById(uid, callback);
+    }
+
+    public void getAllUsers(DataSourceCallback<List<User>> callback) {
+        ds.getAllUsers(callback);
+    }
+
+    public void searchUsersByEmail(String emailPrefix, DataSourceCallback<List<User>> callback) {
+        ds.searchUsersByEmail(emailPrefix, callback);
     }
 }
