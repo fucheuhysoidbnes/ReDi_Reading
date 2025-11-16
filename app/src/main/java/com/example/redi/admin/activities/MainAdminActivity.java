@@ -11,7 +11,7 @@ public class MainAdminActivity extends BaseAdminActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setTitle("Dashboard");
         openFragment(new DashboardFragment());
     }
 
