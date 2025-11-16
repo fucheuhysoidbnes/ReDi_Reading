@@ -9,15 +9,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.redi.R;
-import com.example.redi.admin.activities.ManageAccountActivity;
 import com.example.redi.common.models.User;
-import com.example.redi.data.DataSourceCallback;
 import com.example.redi.data.repository.UserRepository;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-
-import java.util.UUID;
 
 public class AddEditUserFragment extends Fragment {
 
@@ -43,7 +38,7 @@ public class AddEditUserFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_add_edit_user, container, false);
+        return inflater.inflate(R.layout.admin_fragment_edit_user, container, false);
     }
 
     @Override

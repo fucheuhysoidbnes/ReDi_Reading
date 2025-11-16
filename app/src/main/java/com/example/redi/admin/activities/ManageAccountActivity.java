@@ -18,7 +18,7 @@ public class ManageAccountActivity extends BaseAdminActivity {
         setTitle("Quản lý tài khoản");
         //  CHỈ INFLATE layout này vào vùng nội dung admin
         getLayoutInflater().inflate(
-                R.layout.activity_manage_account,
+                R.layout.admin_manage_account_main,
                 findViewById(R.id.admin_fragment_container),
                 true
         );
