@@ -69,7 +69,7 @@ public class RegisterActivity extends AppCompatActivity {
                         FirebaseUser fuser = auth.getCurrentUser();
                         if (fuser != null) {
                             String uid = fuser.getUid();
-                            User user = new User(uid, name, email, phone, address, "user");
+                            User user = new User(uid, name, email, phone, address, "user","");
                             userRepo.saveUser(user, (error, ref) -> {
                                 if (error == null) {
                                     Toast.makeText(RegisterActivity.this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();

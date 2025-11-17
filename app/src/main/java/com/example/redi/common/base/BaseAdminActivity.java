@@ -39,7 +39,10 @@ public abstract class BaseAdminActivity extends AppCompatActivity {
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.admin_toolbar);
         setSupportActionBar(toolbar);
 
-        // Tạo Toggle để tự động hiển thị hamburger icon
+
+        toolbar.setTitle("Trang quản trị");
+        // hoặc getSupportActionBar().setTitle("Admin Panel");
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this,
                 drawerLayout,
@@ -49,10 +52,9 @@ public abstract class BaseAdminActivity extends AppCompatActivity {
         );
 
         drawerLayout.addDrawerListener(toggle);
-
-        // Đồng bộ icon hamburger với DrawerLayout
         toggle.syncState();
     }
+
 
 
     private void setupMenuEvents() {
@@ -73,12 +75,27 @@ public abstract class BaseAdminActivity extends AppCompatActivity {
                 startActivity(new Intent(this, ManageAccountActivity.class));
             }
             else if (id == R.id.menu_logout) {
-                userSession.logout();
-                finishAffinity();
+                showLogoutConfirm();
             }
 
             drawerLayout.closeDrawers();
             return true;
         });
     }
+
+    private void showLogoutConfirm() {
+        new androidx.appcompat.app.AlertDialog.Builder(this)
+                .setTitle("Đăng xuất")
+                .setMessage("Bạn có chắc chắn muốn đăng xuất không?")
+                .setPositiveButton("Đăng xuất", (dlg, which) -> {
+                    userSession.logout();
+                    Intent intent = new Intent(this, com.example.redi.auth.LoginActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finishAffinity();
+                })
+                .setNegativeButton("Hủy", null)
+                .show();
+    }
+
 }
