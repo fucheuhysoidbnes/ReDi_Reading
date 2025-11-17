@@ -88,9 +88,9 @@ public class AddEditUserFragment extends Fragment {
         }
 
         // Back icon
-        v.findViewById(R.id.ic_back).setOnClickListener(x ->
-                requireActivity().getSupportFragmentManager().popBackStack()
-        );
+//        v.findViewById(R.id.ic_back).setOnClickListener(x ->
+//                requireActivity().getSupportFragmentManager().popBackStack()
+//        );
 
         btnSave.setOnClickListener(view -> saveUser());
         btnDelete.setOnClickListener(view -> deleteUser());
