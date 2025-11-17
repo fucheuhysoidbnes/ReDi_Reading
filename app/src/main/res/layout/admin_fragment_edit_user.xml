@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:background="@color/background"
     android:layout_height="match_parent">
 
     <LinearLayout
@@ -9,22 +10,22 @@
         android:layout_height="wrap_content">
 
         <!-- Toolbar Back -->
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_add_edit"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            android:title="Thông tin người dùng"
-            android:titleTextColor="@android:color/white">
+<!--        <androidx.appcompat.widget.Toolbar-->
+<!--            android:id="@+id/toolbar_add_edit"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="30dp"-->
+<!--            android:background="@color/background"-->
+<!--            android:title="Thông tin người dùng"-->
+<!--            android:titleTextColor="@android:color/white">-->
 
-            <ImageView
-                android:id="@+id/ic_back"
-                android:src="@drawable/ic_back"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_gravity="center_vertical" />
+<!--            <ImageView-->
+<!--                android:id="@+id/ic_back"-->
+<!--                android:src="@drawable/ic_back"-->
+<!--                android:layout_width="24dp"-->
+<!--                android:layout_height="24dp"-->
+<!--                android:layout_gravity="center_vertical" />-->
 
-        </androidx.appcompat.widget.Toolbar>
+<!--        </androidx.appcompat.widget.Toolbar>-->
 
         <LinearLayout
             android:padding="20dp"
@@ -52,7 +53,7 @@
                 android:id="@+id/et_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Mật khẩu (chỉ khi tạo mới)"
+                android:hint="Mật khẩu"
                 android:layout_marginTop="10dp"
                 android:padding="10dp"
                 android:inputType="textPassword"/>
@@ -85,6 +86,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:backgroundTint="@color/brown"
                 android:textColor="@android:color/white"/>
 
             <Button
@@ -94,6 +96,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:backgroundTint="@color/black"
                 android:textColor="@android:color/white"/>
 
             <ProgressBar
