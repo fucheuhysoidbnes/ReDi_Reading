@@ -9,4 +9,8 @@
     <color name="light_brown">#D09D70</color>
     <color name="adminMenuText">#333333</color>
     <color name="adminMenuIcon">#333333</color>
+    <color name="status_pending">#FFB300</color>     <!-- amber -->
+    <color name="status_delivering">#1976D2</color>  <!-- blue -->
+    <color name="status_received">#2E7D32</color>    <!-- green -->
+    <color name="status_cancelled">#C62828</color>   <!-- red -->
 </resources>
