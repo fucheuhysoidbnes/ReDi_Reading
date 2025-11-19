@@ -13,6 +13,9 @@ public class Order implements Serializable {
     private String dateOrder;
     private String dateReceive;
     private Payment payment;
+    // add field
+    private long cancelAt; // timestamp
+
     private Map<String, CartItem> booklist = new HashMap<>();
 
     private String cancelReason;  //  Lý do hủy đơn
@@ -44,7 +47,8 @@ public class Order implements Serializable {
 
     public Payment getPayment() { return payment; }
     public void setPayment(Payment payment) { this.payment = payment; }
-
+    public long getCancelAt() { return cancelAt; }
+    public void setCancelAt(long cancelAt) { this.cancelAt = cancelAt; }
     public Map<String, CartItem> getBooklist() { return booklist; }
     public void setBooklist(Map<String, CartItem> booklist) { this.booklist = booklist; }
 
