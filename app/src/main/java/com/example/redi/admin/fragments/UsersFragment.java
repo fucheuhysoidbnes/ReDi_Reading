@@ -1,20 +1,17 @@
 package com.example.redi.admin.fragments;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.TextUtils;
+import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.*;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ProgressBar;
-import android.widget.Toast;
+import android.widget.*;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.*;
 
 import com.example.redi.R;
 import com.example.redi.admin.adapters.AdminUserAdapter;
@@ -59,10 +56,14 @@ public class UsersFragment extends Fragment implements AdminUserAdapter.OnUserAc
         btnClear = v.findViewById(R.id.btn_clear);
         fabAdd = v.findViewById(R.id.fab_add_user);
 
-        // --- 1) Search realtime ---
+        // Tải danh sách ban đầu
+        loadUsers();
+
+        // ───────────────────────────────────────
+        // SEARCH REALTIME
+        // ───────────────────────────────────────
         etSearch.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -70,52 +71,29 @@ public class UsersFragment extends Fragment implements AdminUserAdapter.OnUserAc
                 if (q.isEmpty()) {
                     loadUsers();
                 } else {
-                    doSearch();
+                    doSearch(q);
                 }
             }
 
-            @Override
-            public void afterTextChanged(Editable s) {}
+            @Override public void afterTextChanged(Editable s) {}
         });
 
-        // 2) Clear button
+        // Clear search
         btnClear.setOnClickListener(view -> {
             etSearch.setText("");
             loadUsers();
         });
 
-        // 3) Add user
+        // Add user
         fabAdd.setOnClickListener(view -> {
             AddEditUserFragment f = AddEditUserFragment.newInstance(null);
             ((ManageAccountActivity) requireActivity()).openFragment(f, true);
         });
-
-        loadUsers();
     }
 
-
-    private void doSearch() {
-        String q = etSearch.getText().toString().trim().toLowerCase();
-        if (TextUtils.isEmpty(q)) {
-            loadUsers();
-            return;
-        }
-        progressBar.setVisibility(View.VISIBLE);
-        repo.searchUsersByEmail(q, new DataSourceCallback<List<User>>() {
-            @Override
-            public void onSuccess(List<User> result) {
-                progressBar.setVisibility(View.GONE);
-                adapter.setUsers(result);
-            }
-
-            @Override
-            public void onError(String errorMessage) {
-                progressBar.setVisibility(View.GONE);
-                Toast.makeText(requireContext(), "Lỗi: " + errorMessage, Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
+    // ───────────────────────────────────────
+    // LOAD USERS
+    // ───────────────────────────────────────
     private void loadUsers() {
         progressBar.setVisibility(View.VISIBLE);
         repo.getAllUsers(new DataSourceCallback<List<User>>() {
@@ -133,15 +111,71 @@ public class UsersFragment extends Fragment implements AdminUserAdapter.OnUserAc
         });
     }
 
+    // ───────────────────────────────────────
+    // SEARCH USERS
+    // ───────────────────────────────────────
+    private void doSearch(String q) {
+        if (TextUtils.isEmpty(q)) {
+            loadUsers();
+            return;
+        }
+
+        progressBar.setVisibility(View.VISIBLE);
+        repo.searchUsersByEmail(q, new DataSourceCallback<List<User>>() {
+            @Override
+            public void onSuccess(List<User> result) {
+                progressBar.setVisibility(View.GONE);
+                adapter.setUsers(result);
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                progressBar.setVisibility(View.GONE);
+                Toast.makeText(requireContext(), "Lỗi: " + errorMessage, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    // ───────────────────────────────────────
+    // EDIT
+    // ───────────────────────────────────────
     @Override
     public void onEdit(User user) {
         AddEditUserFragment f = AddEditUserFragment.newInstance(user);
         ((ManageAccountActivity) requireActivity()).openFragment(f, true);
     }
 
+    // ───────────────────────────────────────
+    // DELETE (KHÔNG SANG EDIT USER NỮA)
+    // ───────────────────────────────────────
     @Override
     public void onDelete(User user) {
-        AddEditUserFragment f = AddEditUserFragment.newInstance(user);
-        ((ManageAccountActivity) requireActivity()).openFragment(f, true);
+
+        new AlertDialog.Builder(requireContext())
+                .setTitle("Xóa người dùng")
+                .setMessage("Bạn chắc chắn muốn xóa \"" + user.getEmail() + "\"?")
+                .setPositiveButton("Xóa", (dialog, which) -> {
+
+                    if (user.getId() == null || user.getId().trim().isEmpty()) {
+                        Toast.makeText(requireContext(), "Lỗi: userId bị null", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    progressBar.setVisibility(View.VISIBLE);
+
+                    repo.deleteUser(user.getId(), (error, ref) -> {
+                        progressBar.setVisibility(View.GONE);
+
+                        if (error == null) {
+                            Toast.makeText(requireContext(), "Đã xóa", Toast.LENGTH_SHORT).show();
+                            loadUsers(); // reload danh sách
+                        } else {
+                            Toast.makeText(requireContext(), "Lỗi DB: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                })
+                .setNegativeButton("Hủy", null)
+                .show();
     }
 }

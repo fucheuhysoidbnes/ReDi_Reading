@@ -32,7 +32,7 @@ public class UserRepository {
         ds.getAllUsers(callback);
     }
 
-    public void searchUsersByEmail(String emailPrefix, DataSourceCallback<List<User>> callback) {
-        ds.searchUsersByEmail(emailPrefix, callback);
+    public void searchUsersByEmail(String email, DataSourceCallback<List<User>> callback) {
+        ds.searchUsersByEmail(email, callback);
     }
 }
