@@ -19,7 +19,6 @@ import com.example.redi.common.utils.Constants;
 import com.example.redi.data.DataSourceCallback;
 import com.example.redi.data.repository.OrderRepository;
 import com.github.mikephil.charting.charts.*;
-import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.*;
 
 import java.text.NumberFormat;
@@ -48,7 +47,7 @@ public class DashboardFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_dashboard, container, false);
+        return inflater.inflate(R.layout.admin_fragment_dashboard, container, false);
     }
 
     @Override

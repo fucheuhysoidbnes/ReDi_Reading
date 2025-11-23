@@ -6,107 +6,82 @@
 
     <LinearLayout
         android:orientation="vertical"
+        android:padding="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <!-- Toolbar Back -->
-<!--        <androidx.appcompat.widget.Toolbar-->
-<!--            android:id="@+id/toolbar_add_edit"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="30dp"-->
-<!--            android:background="@color/background"-->
-<!--            android:title="Thông tin người dùng"-->
-<!--            android:titleTextColor="@android:color/white">-->
-
-<!--            <ImageView-->
-<!--                android:id="@+id/ic_back"-->
-<!--                android:src="@drawable/ic_back"-->
-<!--                android:layout_width="24dp"-->
-<!--                android:layout_height="24dp"-->
-<!--                android:layout_gravity="center_vertical" />-->
-
-<!--        </androidx.appcompat.widget.Toolbar>-->
-
-        <LinearLayout
-            android:padding="20dp"
-            android:orientation="vertical"
+        <EditText
+            android:id="@+id/et_name"
+            android:hint="Họ và tên"
+            android:padding="10dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content" />
 
-            <EditText
-                android:id="@+id/et_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Họ và tên"
-                android:padding="10dp" />
+        <EditText
+            android:id="@+id/et_email"
+            android:hint="Email"
+            android:padding="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-            <EditText
-                android:id="@+id/et_email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Email"
-                android:layout_marginTop="10dp"
-                android:padding="10dp"/>
+        <EditText
+            android:id="@+id/et_password"
+            android:hint="Mật khẩu"
+            android:inputType="textPassword"
+            android:padding="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-            <!-- Mật khẩu: CHỈ HIỆN KHI TẠO MỚI -->
-            <EditText
-                android:id="@+id/et_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Mật khẩu"
-                android:layout_marginTop="10dp"
-                android:padding="10dp"
-                android:inputType="textPassword"/>
+        <EditText
+            android:id="@+id/et_phone"
+            android:hint="Số điện thoại"
+            android:padding="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-            <EditText
-                android:id="@+id/et_phone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Số điện thoại"
-                android:layout_marginTop="10dp"
-                android:padding="10dp"/>
+        <EditText
+            android:id="@+id/et_address"
+            android:hint="Địa chỉ"
+            android:padding="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-            <EditText
-                android:id="@+id/et_address"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Địa chỉ"
-                android:layout_marginTop="10dp"
-                android:padding="10dp"/>
+        <Spinner
+            android:id="@+id/sp_role"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-            <Spinner
-                android:id="@+id/sp_role"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"/>
+        <Button
+            android:id="@+id/btn_save"
+            android:text="Lưu"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="@color/brown"
+            android:textColor="@android:color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-            <Button
-                android:id="@+id/btn_save"
-                android:text="Lưu"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:backgroundTint="@color/brown"
-                android:textColor="@android:color/white"/>
+        <Button
+            android:id="@+id/btn_delete"
+            android:text="Hủy"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/black"
+            android:textColor="@android:color/white"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-            <Button
-                android:id="@+id/btn_delete"
-                android:text="Xóa"
-                android:visibility="gone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:backgroundTint="@color/black"
-                android:textColor="@android:color/white"/>
-
-            <ProgressBar
-                android:id="@+id/progress_bar"
-                android:layout_width="match_parent"
-                android:layout_height="4dp"
-                android:layout_marginTop="12dp"
-                android:visibility="gone" />
-
-        </LinearLayout>
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:layout_marginTop="12dp"
+            android:visibility="gone" />
 
     </LinearLayout>
+
 </ScrollView>

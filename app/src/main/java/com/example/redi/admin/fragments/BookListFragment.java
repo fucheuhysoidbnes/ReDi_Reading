@@ -90,12 +90,35 @@ public class BookListFragment extends Fragment {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder holder, int direction) {
-                Book b = adapter.getBookAt(holder.getAdapterPosition());
-                confirmDelete(b);
+
+                int position = holder.getAdapterPosition();   //  Lấy vị trí trước
+                Book b = adapter.getBookAt(position);
+
+                // Mở dialog
+                new AlertDialog.Builder(requireContext())
+                        .setTitle("Xoá sách")
+                        .setMessage("Bạn có chắc muốn xoá \"" + b.getTitle() + "\" ?")
+
+                        .setPositiveButton("Xoá", (d, w) -> {
+                            // Xoá thật trong DB
+                            viewModel.deleteBook(b.getBook_id());
+                        })
+
+                        .setNegativeButton("Hủy", (d, w) -> {
+                            //  Phải khôi phục item nếu không xoá
+                            adapter.notifyItemChanged(position);
+                        })
+
+                        .setOnCancelListener(dialog ->
+                                adapter.notifyItemChanged(position)  // user bấm ra ngoài
+                        )
+
+                        .show();
             }
         };
 
         new ItemTouchHelper(swipeDelete).attachToRecyclerView(recyclerView);
+
     }
 
     private void confirmDelete(Book book) {
