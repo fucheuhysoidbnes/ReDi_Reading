@@ -168,12 +168,14 @@ public class CartFragment extends Fragment implements CartAdapter.CartActionList
 
     private void deleteSelectedItems() {
         if (currentCart == null) return;
+
         List<CartItem> selected = adapter.getSelectedItems();
         if (selected.isEmpty()) {
             Toast.makeText(requireContext(), "Chọn sản phẩm để xoá", Toast.LENGTH_SHORT).show();
             return;
         }
 
+        // Xoá Firebase
         for (CartItem item : selected) {
             com.google.firebase.database.FirebaseDatabase.getInstance()
                     .getReference("carts")
@@ -183,9 +185,17 @@ public class CartFragment extends Fragment implements CartAdapter.CartActionList
                     .removeValue();
         }
 
+        // Xoá local
         cartItems.removeAll(selected);
+
+        //  RESET selected items trong adapter
+        adapter.clearSelection();        // <--- thêm dòng này
+
         adapter.notifyDataSetChanged();
+
+        // Cập nhật tổng tiền NGAY LẬP TỨC
         updateTotalPrice();
+
         Toast.makeText(requireContext(), "Đã xoá sản phẩm được chọn", Toast.LENGTH_SHORT).show();
     }
 

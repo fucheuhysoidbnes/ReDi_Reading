@@ -110,4 +110,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             btnPlus = itemView.findViewById(R.id.btnPlus);
         }
     }
+    public void clearSelection() {
+        selectedItems.clear();
+    }
+
 }
