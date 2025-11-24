@@ -106,8 +106,6 @@ public class AdminOrderAdapter extends RecyclerView.Adapter<AdminOrderAdapter.VH
         }
 
         holder.tvTotal.setText(NumberFormat.getInstance().format(total));
-
-        holder.btnDetail.setOnClickListener(v -> listener.onViewOrder(o));
         holder.itemView.setOnClickListener(v -> listener.onViewOrder(o));
     }
 
@@ -117,7 +115,6 @@ public class AdminOrderAdapter extends RecyclerView.Adapter<AdminOrderAdapter.VH
     static class VH extends RecyclerView.ViewHolder {
         TextView tvOrderId, tvStatus, tvPhone, tvDate, tvTotal;
         ImageView imgBook;
-        ImageButton btnDetail;
 
         VH(@NonNull View v) {
             super(v);
@@ -127,7 +124,6 @@ public class AdminOrderAdapter extends RecyclerView.Adapter<AdminOrderAdapter.VH
             tvDate = v.findViewById(R.id.tvOrderDate);
             tvTotal = v.findViewById(R.id.tvOrderTotal);
             imgBook = v.findViewById(R.id.imgBook);
-            btnDetail = v.findViewById(R.id.btnDetail);
         }
     }
 }
