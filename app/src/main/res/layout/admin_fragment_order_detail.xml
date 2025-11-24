@@ -84,6 +84,7 @@
 
             <Button
                 android:id="@+id/btnChangeStatus"
+                android:backgroundTint="@color/brown"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -91,6 +92,7 @@
 
             <Button
                 android:id="@+id/btnMarkPaid"
+                android:backgroundTint="@color/status_received"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -100,6 +102,7 @@
 
         <Button
             android:id="@+id/btnCancelOrder"
+            android:backgroundTint="@color/status_cancelled"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"

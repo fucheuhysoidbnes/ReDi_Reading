@@ -48,6 +48,7 @@
                 android:layout_weight="1"
                 android:layout_margin="6dp"
                 android:background="@drawable/bg_card"
+                android:backgroundTint="@color/status_pending"
                 android:padding="16dp"
                 android:orientation="vertical">
 
@@ -55,12 +56,14 @@
                     android:id="@+id/tvPendingOrders"
                     android:text="0"
                     android:textStyle="bold"
+                    android:textColor="@color/white"
                     android:textSize="20sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
                 <TextView
                     android:text="Chờ xác nhận"
+                    android:textColor="@color/white"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -80,12 +83,14 @@
                 android:layout_weight="1"
                 android:layout_margin="6dp"
                 android:background="@drawable/bg_card"
+                android:backgroundTint="@color/status_delivering"
                 android:padding="16dp"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/tvDeliveringOrders"
                     android:text="0"
+                    android:textColor="@color/white"
                     android:textStyle="bold"
                     android:textSize="20sp"
                     android:layout_width="wrap_content"
@@ -93,6 +98,7 @@
 
                 <TextView
                     android:text="Đang giao"
+                    android:textColor="@color/white"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -104,6 +110,7 @@
                 android:layout_weight="1"
                 android:layout_margin="6dp"
                 android:background="@drawable/bg_card"
+                android:backgroundTint="@color/status_received"
                 android:padding="16dp"
                 android:orientation="vertical">
 
@@ -111,12 +118,14 @@
                     android:id="@+id/tvDeliveredOrders"
                     android:text="0"
                     android:textStyle="bold"
+                    android:textColor="@color/white"
                     android:textSize="20sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
                 <TextView
                     android:text="Đã giao"
+                    android:textColor="@color/white"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -136,12 +145,14 @@
                 android:layout_margin="6dp"
                 android:layout_weight="1"
                 android:background="@drawable/bg_card"
+                android:backgroundTint="@color/status_cancelled"
                 android:padding="16dp"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/tvCancelledOrders"
                     android:text="0"
+                    android:textColor="@color/white"
                     android:textStyle="bold"
                     android:textSize="20sp"
                     android:layout_width="wrap_content"
@@ -149,6 +160,7 @@
 
                 <TextView
                     android:text="Đã huỷ"
+                    android:textColor="@color/white"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -160,6 +172,7 @@
                 android:layout_weight="1"
                 android:layout_margin="6dp"
                 android:background="@drawable/bg_card"
+                android:backgroundTint="@color/light_brown"
                 android:padding="16dp"
                 android:orientation="vertical">
 
@@ -167,12 +180,14 @@
                     android:id="@+id/tvRevenue"
                     android:text="0đ"
                     android:textStyle="bold"
+                    android:textColor="@color/white"
                     android:textSize="20sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
                 <TextView
                     android:text="Doanh thu hôm nay"
+                    android:textColor="@color/white"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
