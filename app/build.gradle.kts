@@ -60,6 +60,7 @@ dependencies {
     // Thư viện đọc PDF (AndroidX version - bản ổn định)
     implementation("com.github.mhiew:android-pdf-viewer:3.2.0-beta.1")
     implementation("androidx.collection:collection:1.2.0")
+
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 
     // Các thư viện AndroidX cơ bản
